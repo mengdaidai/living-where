@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.lenovo.livingwhere.view.RoundCornerImageView
+        android:id="@+id/item_recommend_horseImage"
+        android:layout_gravity="center_vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_rectangle"
+        android:src="@drawable/house"
+        android:layout_weight="3"
+        android:scaleType="fitXY"
+        />
+
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="6">
+        <LinearLayout
+            android:paddingTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/item_recommend_icon_rentime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recommend_icon_time"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"/>
+            <TextView
+                android:id="@+id/item_recommend_text_rentime"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="外租时段："
+                android:textColor="#ffffff"
+                android:textSize="30px"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/item_recommend_icon_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recommned_icon_address"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"/>
+            <TextView
+                android:id="@+id/item_recommend_text_location"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地    点："
+                android:textColor="#ffffff"
+                android:textSize="30px"/>
+        </LinearLayout>
+        <LinearLayout
+            android:paddingTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/item_recommend_icon_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/recommend_icon_count"
+                android:layout_gravity="center_vertical"
+                android:scaleType="center"/>
+            <TextView
+                android:id="@+id/item_recommend_text_count"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="可住人数："
+                android:textColor="#ffffff"
+                android:textSize="30px"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/item_recommend_price"
+            android:paddingTop="7dp"
+            android:paddingBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="150/天"
+            android:color="#000000"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_recommend_arrow"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/recommend_icon_go"
+        android:layout_weight="1"
+        android:scaleType="center"/>
+
+</LinearLayout>

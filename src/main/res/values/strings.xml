@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LivingWhere</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_locate">LocateActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_my_order_history">MyOrderHistory</string>
+    <string name="title_activity_my_rent_note">MyRentNoteActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
+    <string name="title_activity_add_picture_selection">AddPictureSelectionActivity</string>
+    <string name="title_activity_big_picture">BigPictureActivity</string>
+    <string name="title_activity_order">OrderActivity</string>
+    <string name="title_activity_my_info_activty">MyInfoActivty</string>
+    <string name="title_activity_edit_info">EditInfoActivity</string>
+    <string name="title_activity_selection_condition">SelectionConditionActivity</string>
+    <string name="title_activity_other_house">OtherHouseActivity</string>
+    <string name="title_activity_my_house">MyHouse</string>
+    <string name="title_activity_edit_house">EditHouseActivity</string>
+    <string name="title_activity_house_comment">HouseCommentActivity</string>
+
+</resources>

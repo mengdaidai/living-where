@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    tools:context="com.example.lenovo.livingwhere.activity.OrderActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="尚客优酒店住宿"
+        android:textSize="40dp"/>
+
+
+
+
+    <Button
+        android:id="@+id/order_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="08-23入住"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/order_out_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="08-24离开"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/order_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/order_cancel_32px"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/order_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="预约"/>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#01B9FF"
+   >
+
+
+        <ImageButton
+            android:id="@+id/actionbar_recommend_main_head"
+            android:layout_marginRight="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pic_head_normal"
+            android:layout_gravity="center_vertical"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            />
+        <TextView
+            android:id="@+id/actionbar_recommend_main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="首页推荐"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            />
+        <Button
+            android:id="@+id/actionbar_location"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="当前位置"/>
+
+
+
+
+</LinearLayout>
