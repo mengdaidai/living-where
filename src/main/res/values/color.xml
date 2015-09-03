@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="seagreen">#2E8B57</color>
+    <color name="color_white">#ffffffff</color>
+    <color name="color_unkown">#ffeee6e3</color>
+    <color name="color_pinner">#ff00b2b2</color>
+    <color name="color_text_grey">#ffc0c0c0</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_blue">#ff46d6af</color>
+    <color name="color_black">#ff4c4c4c</color>
+    <color name="color_grey">#ff968e8e</color>
+    <color name="color_greyandwhite">#fff5f5f5</color>
+    <color name="color_text_green">#ff369162</color>
+    <color name="color_pink">#ffff9e9e</color>
+</resources>

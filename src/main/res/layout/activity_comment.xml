@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.lenovo.livingwhere.activity.CommentActivity">
+
+    <EditText
+        android:id="@+id/comment_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"/>
+
+    <GridView
+        android:id="@+id/comment_pic_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:numColumns="4"
+        android:columnWidth="90dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_below="@id/comment_edittext"></GridView>
+
+
+
+    <RatingBar
+        android:id="@+id/comment_ratingBar"
+        android:numStars="5"
+        android:rating="1.5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_pic_grid_view"
+        android:layout_alignLeft="@id/comment_pic_grid_view">
+    </RatingBar>
+
+    <Button
+        android:id="@+id/comment_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="提交"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/comment_ratingBar"/>
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_submit"/>
+
+
+
+</RelativeLayout>
