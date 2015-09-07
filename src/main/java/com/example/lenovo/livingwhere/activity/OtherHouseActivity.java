@@ -18,6 +18,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.entity.Houses;
+import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.view.RefreshListView;
@@ -64,7 +65,7 @@ public class OtherHouseActivity extends AppCompatActivity {
             mListView = (RefreshListView)findViewById(R.id.other_house_listview);
             //Volley框架获取数据
             GsonRequest<ArrayList<Houses>> initGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
-                    "http://115.28.85.146:8080/Zhunaer/action/msg_getOtherHouses", new TypeToken<ArrayList<Houses>>(){}.getType(),
+                    URI.GetOtherHousesAddr, new TypeToken<ArrayList<Houses>>(){}.getType(),
                     new Response.Listener<ArrayList<Houses>>() {
                         @Override
                         public void onResponse(ArrayList<Houses> houses) {
@@ -97,7 +98,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                 public void onDownPullRefresh() {
                     //下拉刷新，利用Volley框架请求数据并更新当前数据
                     GsonRequest<ArrayList<Houses>> pullDownGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
-                            "http://115.28.85.146:8080/Zhunaer/action/msg_getOtherHouses", new TypeToken<ArrayList<Houses>>() {
+                            URI.GetOtherHousesAddr, new TypeToken<ArrayList<Houses>>() {
                     }.getType(),
                             new Response.Listener<ArrayList<Houses>>() {
                                 @Override
@@ -136,7 +137,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                 toBeHostButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        StringRequest toBeHostRequest = new StringRequest(Request.Method.POST, "http://115.28.85.146:8080/Zhunaer/action/modify_toBeAOwner",
+                        StringRequest toBeHostRequest = new StringRequest(Request.Method.POST, URI.ToBeOwnerAddr,
                                 new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String s) {
@@ -177,7 +178,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                 mListView = (RefreshListView)findViewById(R.id.other_house_listview);
                 //Volley框架获取数据
                 GsonRequest<ArrayList<Houses>> initGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
-                        "http://115.28.85.146:8080/Zhunaer/action/msg_getMyReleasedHouses", new TypeToken<ArrayList<Houses>>(){}.getType(),
+                        URI.GetMyReleasedHousesAddr, new TypeToken<ArrayList<Houses>>(){}.getType(),
                         new Response.Listener<ArrayList<Houses>>() {
                             @Override
                             public void onResponse(ArrayList<Houses> houses) {
@@ -210,7 +211,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                     public void onDownPullRefresh() {
                         //下拉刷新，利用Volley框架请求数据并更新当前数据
                         GsonRequest<ArrayList<Houses>> pullDownGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
-                                "http://115.28.85.146:8080/Zhunaer/action/msg_getMyReleasedHouses", new TypeToken<ArrayList<Houses>>() {
+                                URI.GetMyReleasedHousesAddr, new TypeToken<ArrayList<Houses>>() {
                         }.getType(),
                                 new Response.Listener<ArrayList<Houses>>() {
                                     @Override

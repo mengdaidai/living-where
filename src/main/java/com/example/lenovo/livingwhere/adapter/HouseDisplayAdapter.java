@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,7 +33,6 @@ public class HouseDisplayAdapter extends BaseAdapter {
     public List<Houses> houseInfo = null;
     ImageLoader imageLoader;
     Gson gson = new Gson();
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
 
     public HouseDisplayAdapter(Context context, List<Houses> houseInfo) {
         super();
@@ -83,7 +83,7 @@ public class HouseDisplayAdapter extends BaseAdapter {
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
         List<String> pics = gson.fromJson(houseInfo.get(position).getPictures(),new TypeToken<List<String>>(){}.getType());
-        imageLoader.get(picHead+pics.get(0),listener,200,200);
+        imageLoader.get(URI.HousesPic+pics.get(0),listener,200,200);
         holder.icon_location.setImageResource(R.drawable.recommned_icon_address);
         holder.icon_rentime.setImageResource(R.drawable.recommend_icon_time);
         holder.icon_count.setImageResource(R.drawable.recommend_icon_count);

@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.CommentObj;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,8 +36,6 @@ public class HouseCommentAdapter extends BaseAdapter {
     Gson gson = new Gson();
     Context context;
 
-    final String picComment = "http://115.28.85.146:8080/Zhunaer/upload/commentsPic/";
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/headPic/";
 
     public HouseCommentAdapter(Context context, List<CommentObj> commentInfo) {
         super();
@@ -87,12 +86,12 @@ public class HouseCommentAdapter extends BaseAdapter {
         // 进行数据设置
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.image_head,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-        imageLoader.get(picHead+info.getHeadPic(),listener,200,200);
+        imageLoader.get(URI.HeadPic+info.getHeadPic(),listener,200,200);
         List<String> pics = gson.fromJson(info.getPictures(),new TypeToken<List<String>>(){}.getType());
         for(int i = 0;i<pics.size();i++){
             ImageLoader.ImageListener mListener = ImageLoader.getImageListener(holder.commentPics[i],
                     R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-            imageLoader.get(picComment+pics.get(i),mListener,200,200);
+            imageLoader.get(URI.CommentsPic+pics.get(i),mListener,200,200);
             holder.commentPics[i].setVisibility(View.VISIBLE);
         }
         //这里数据有些差错，完了再改

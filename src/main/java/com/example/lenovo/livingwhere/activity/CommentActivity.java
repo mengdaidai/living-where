@@ -28,6 +28,7 @@ import com.example.lenovo.livingwhere.util.AfterPicSelection;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,7 +53,6 @@ public class CommentActivity extends AppCompatActivity {
     Bitmap bmp;//临时存储Bitmap
     static ArrayList<HashMap<String, Object>> imageItem;//simpleAdpter数据
     static SimpleAdapter simpleAdapter;     //gridview适配器
-    final String urlHead = "http://115.28.85.146:8080/Zhunaer/";
     int hid;
     String localPath;
 
@@ -147,7 +147,7 @@ public class CommentActivity extends AppCompatActivity {
                 map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
                 map.put("hid", String.valueOf(hid));
                 map.put("message", commentEdit.getText().toString());
-                PostUploadRequest uploadRequest = new PostUploadRequest(urlHead + "action/modify_addComments", formImageList,map, new Response.Listener<String>() {
+                PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList,map, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 

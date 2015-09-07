@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.livingwhere.fragment.DatePickerFragment;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -36,7 +37,6 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
     int DatePickertype,rentType = 1;//分别为当前选择日期类型（入住、离开），出租类型（长租or短租）
     String inDate = "",outDate = "";
     ImageButton cancelButton;
-    final String urlHead = "http://115.28.85.146:8080/Zhunaer/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
                 }
 
                 //发送网络请求
-                StringRequest orderRequest = new StringRequest(Request.Method.POST, urlHead + "action/modify_addToBookHistory",
+                StringRequest orderRequest = new StringRequest(Request.Method.POST, URI.AddToBookHistoryAddr,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String s) {

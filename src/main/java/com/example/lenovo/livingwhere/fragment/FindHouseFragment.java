@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.example.lenovo.livingwhere.entity.DistanceSort;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.activity.MainActivity;
+import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.view.RefreshListView;
@@ -98,7 +99,7 @@ public class FindHouseFragment extends Fragment {
             public void onDownPullRefresh() {
                 //下拉刷新，利用Volley框架请求数据并更新当前数据
                 GsonRequest<ArrayList<DistanceSort>> pullDownGsonRequest = new GsonRequest<ArrayList<DistanceSort>>(Request.Method.POST,
-                        "http://115.28.85.146:8080/Zhunaer/action/msg_matchHouses", new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
+                        URI.MatchHousesAddr, new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
                         new Response.Listener<ArrayList<DistanceSort>>() {
                             @Override
                             public void onResponse(ArrayList<DistanceSort> houses) {
@@ -134,7 +135,7 @@ public class FindHouseFragment extends Fragment {
             public void onLoadingMore() {
 //上拉加载，利用Volley框架请求数据并更新当前数据
                 GsonRequest<ArrayList<DistanceSort>> loadMoreGsonRequest = new GsonRequest<ArrayList<DistanceSort>>(Request.Method.POST,
-                        "http://115.28.85.146:8080/Zhunaer/action/msg_matchHouses", new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
+                        URI.MatchHousesAddr, new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
                         new Response.Listener<ArrayList<DistanceSort>>() {
                             @Override
                             public void onResponse(ArrayList<DistanceSort> houses) {

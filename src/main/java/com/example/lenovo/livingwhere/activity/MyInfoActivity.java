@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 
 /**
  * 我的信息页面
@@ -21,7 +22,6 @@ public class MyInfoActivity extends AppCompatActivity {
     TextView nicknameText,ageText,signatureText,genderText;
     ImageView headPicImageView;//头像
     ImageLoader imageLoader;
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/headPic/";
 
 
     @Override
@@ -85,7 +85,7 @@ public class MyInfoActivity extends AppCompatActivity {
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headPicImageView,
                 R.drawable.pic_head_normal, R.drawable.pic_head_selected);
         System.out.println(MainActivity.userObj.getHeadPic());
-        imageLoader.get(picHead+MainActivity.userObj.getHeadPic(), listener, 200, 200);
+        imageLoader.get(URI.HeadPic+MainActivity.userObj.getHeadPic(), listener, 200, 200);
         nicknameText = (TextView)findViewById(R.id.my_info_nick_name);
         nicknameText.setText(MainActivity.userObj.getNickname());
         ageText = (TextView)findViewById(R.id.my_info_age);

@@ -35,6 +35,7 @@ import com.example.lenovo.livingwhere.util.AfterPicSelection;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
+import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
@@ -73,11 +74,9 @@ public class ReleaseHouseFragment extends Fragment {
     int type;//表示住房的种类是个人住房或宾馆酒店
     SimpleAdapter simpleAdapter;
     ArrayList<HashMap<String, Object>> imageItem;
-    final String urlHead = "http://115.28.85.146:8080/Zhunaer/";
-    String urlTail = "";
+    String url = "";
     String picNameModel = "";
     Houses mHouse = null;
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
     List<FormImage> formImageList = new ArrayList<FormImage>();
     int i = 1;
     String localPath = "";//用于临时存储照片路径
@@ -194,7 +193,7 @@ public class ReleaseHouseFragment extends Fragment {
         });
         picGridView.setAdapter(simpleAdapter);
         if(mHouse != null){//说明此页面用来修改房子信息
-            urlTail = "action/modify_updateMyHouseInfo";
+            url = URI.UpdateMyHouseInfoAddr;
             picNameModel = "housesPic";
             //phoneEdit.setText(mHouse.getContactPhone());
             phoneEdit.setText(String.valueOf(mHouse.getHid()));
@@ -208,7 +207,7 @@ public class ReleaseHouseFragment extends Fragment {
 
             for(String s:picsUrl) {
                 final String ms = s;
-                ImageRequest request = new ImageRequest(picHead + s, new Response.Listener<Bitmap>() {
+                ImageRequest request = new ImageRequest(URI.HousesPic + s, new Response.Listener<Bitmap>() {
                     @Override
                     public void onResponse(Bitmap response) {
                         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -231,7 +230,7 @@ public class ReleaseHouseFragment extends Fragment {
         }
 
         else{
-            urlTail = "action/modify_releaseHouses";
+            url = URI.ReleaseHousesAddr;
             picNameModel = "housesPic";
         }
         picGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -298,7 +297,7 @@ public class ReleaseHouseFragment extends Fragment {
                             if(mHouse!=null){
                                 map.put("hid",String.valueOf(mHouse.getHid()));
                             }
-                            PostUploadRequest uploadRequest = new PostUploadRequest(urlHead + urlTail, formImageList,map, new Response.Listener<String>() {
+                            PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList,map, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     if(response.equals("操作成功")||response.equals("无法访问"))
@@ -320,7 +319,7 @@ public class ReleaseHouseFragment extends Fragment {
                             MainActivity.mQueue.add(uploadRequest);
                         }
                     }else{//图片来自网络
-                        ImageRequest request = new ImageRequest(picHead + (String) map1.get("url"), new Response.Listener<Bitmap>() {
+                        ImageRequest request = new ImageRequest(URI.HousesPic + (String) map1.get("url"), new Response.Listener<Bitmap>() {
                             int mi = i;
                             @Override
                             public void onResponse(Bitmap response) {
@@ -339,7 +338,7 @@ public class ReleaseHouseFragment extends Fragment {
                                         if(mHouse!=null){
                                             map.put("hid",String.valueOf(mHouse.getHid()));
                                         }
-                                        PostUploadRequest uploadRequest = new PostUploadRequest(urlHead + urlTail, formImageList,map, new Response.Listener<String>() {
+                                        PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList,map, new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
                                                 Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();

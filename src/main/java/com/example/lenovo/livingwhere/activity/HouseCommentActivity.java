@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.lenovo.livingwhere.entity.CommentObj;
 import com.example.lenovo.livingwhere.net.GsonRequest;
+import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.view.RefreshListView;
@@ -39,7 +40,7 @@ public class HouseCommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         hid = intent.getIntExtra("hid",0);
         mListview = (RefreshListView)findViewById(R.id.house_comment_listview);
-        GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, "http://115.28.85.146:8080/Zhunaer/action/msg_getComments", new TypeToken<List<CommentObj>>() {
+        GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, URI.GetCommentsAddr, new TypeToken<List<CommentObj>>() {
         }.getType(),
                 new Response.Listener<List<CommentObj>>() {
                     @Override
@@ -67,7 +68,7 @@ public class HouseCommentActivity extends AppCompatActivity {
             //下拉刷新
             @Override
             public void onDownPullRefresh() {
-                GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, "http://115.28.85.146:8080/Zhunaer/action/msg_getComments", new TypeToken<List<CommentObj>>() {
+                GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, URI.GetCommentsAddr, new TypeToken<List<CommentObj>>() {
                 }.getType(),
                         new Response.Listener<List<CommentObj>>() {
                             @Override
@@ -96,7 +97,7 @@ public class HouseCommentActivity extends AppCompatActivity {
             //上拉加载
             @Override
             public void onLoadingMore() {
-                GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, "http://115.28.85.146:8080/Zhunaer/action/msg_getComments", new TypeToken<List<CommentObj>>() {
+                GsonRequest<List<CommentObj>> request = new GsonRequest<List<CommentObj>>(Request.Method.POST, URI.GetCommentsAddr, new TypeToken<List<CommentObj>>() {
                 }.getType(),
                         new Response.Listener<List<CommentObj>>() {
                             @Override

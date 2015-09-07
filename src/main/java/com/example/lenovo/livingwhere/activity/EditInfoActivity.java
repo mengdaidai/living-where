@@ -31,6 +31,7 @@ import com.example.lenovo.livingwhere.entity.CurrentUserObj;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 
 import java.io.BufferedOutputStream;
@@ -48,7 +49,6 @@ public class EditInfoActivity extends AppCompatActivity {
     EditText nickNameEdit,ageEdit,qianmingEdit;
     ImageView headPic;
     String localPath = "";//当前上传头像的本地路径
-    String urlHead = "http://115.28.85.146:8080/Zhunaer/";
     List<FormImage> myHeadPic;
     Spinner genderSpinner;
     String[] genderString = {"男","女"};
@@ -169,7 +169,7 @@ public class EditInfoActivity extends AppCompatActivity {
                 map.put("age", ageEdit.getText().toString().trim());
                 map.put("signature", qianmingEdit.getText().toString());
                 map.put("nickname", nickNameEdit.getText().toString());
-                PostUploadRequest editInfoRequest = new PostUploadRequest(urlHead + "action/modify_updateMyInfo", myHeadPic, map, new Response.Listener<String>() {
+                PostUploadRequest editInfoRequest = new PostUploadRequest(URI.UpdateMyInfoAddr, myHeadPic, map, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
                         Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_LONG).show();

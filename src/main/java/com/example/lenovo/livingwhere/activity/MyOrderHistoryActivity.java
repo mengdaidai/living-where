@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.entity.BookHistoryObj;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.adapter.MyOrderExpandableAdapter;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MyOrderHistoryActivity extends AppCompatActivity {
         childData.add(compelete);
 
         GsonRequest<ArrayList<BookHistoryObj>> myOrderHistoryGsonRequest = new GsonRequest<ArrayList<BookHistoryObj>>(Request.Method.POST,
-                "http://115.28.85.146:8080/Zhunaer/action/msg_getMyBookHistory", new TypeToken<ArrayList<BookHistoryObj>>(){}.getType(),
+                URI.GetMyBookHistoryAddr, new TypeToken<ArrayList<BookHistoryObj>>(){}.getType(),
                 new Response.Listener<ArrayList<BookHistoryObj>>() {
                     @Override
                     public void onResponse(ArrayList<BookHistoryObj> bookHistory) {

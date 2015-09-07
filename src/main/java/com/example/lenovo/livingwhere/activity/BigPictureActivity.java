@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 
 /**
  * 这个类用于显示点击缩略图后显示大图
@@ -28,9 +29,6 @@ public class BigPictureActivity extends AppCompatActivity {
     Bundle bundle;
     ImageLoader imageLoader;
     ImageLoader.ImageListener listener;
-    final String picHouse = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/headPic/";
-    final String picComment = "http://115.28.85.146:8080/Zhunaer/upload/commentsPic/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +79,9 @@ public class BigPictureActivity extends AppCompatActivity {
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 if(bundle.getInt("from")==1)//代表房子相关
-                    imageLoader.get(picHouse+url,listener);
+                    imageLoader.get(URI.HousesPic+url,listener);
                 else//代表头像相关
-                    imageLoader.get(picHead+url,listener);
+                    imageLoader.get(URI.HeadPic+url,listener);
                 break;
             case 3://有url,可以删除的大图（修改房屋信息）
                 setContentView(R.layout.activity_big_picture);
@@ -93,7 +91,7 @@ public class BigPictureActivity extends AppCompatActivity {
                 imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-                imageLoader.get(picHouse+url,listener);
+                imageLoader.get(URI.HousesPic+url,listener);
                 deleteButton = (ImageButton)findViewById(R.id.actionbar_big_picture_deleteButton);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override

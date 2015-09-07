@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.entity.RentHistoryObj;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,7 +35,6 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
     private LayoutInflater mInflater = null;
     ImageLoader mLoader;
     Gson gson;
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
     public MyRentExpandableAdapter(Context context,List<String> typeList,List<List<RentHistoryObj>> childData) {
         this.typeList = typeList;
         this.childData = childData;
@@ -114,7 +114,7 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
         List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getHeadPic(),new TypeToken<List<String>>(){}.getType());
-        mLoader.get(picHead+pics.get(0),listener,200,200);
+        mLoader.get(URI.HousesPic+pics.get(0),listener,200,200);
         //holder.childLocationText.setText(childData.get(groupPosition).get(childPosition).getAddress());
         holder.childEndText.setText(childData.get(groupPosition).get(childPosition).getStart());
         holder.childStartText.setText(childData.get(groupPosition).get(childPosition).getEnd());

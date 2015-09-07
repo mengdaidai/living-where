@@ -10,6 +10,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class HorizontalScrollViewAdapter {
     private LayoutInflater mInflater;
     private List<String> mDatas;
     ImageLoader mLoader;
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
 
     public HorizontalScrollViewAdapter(Context context, List<String> mDatas)
     {
@@ -68,7 +68,7 @@ public class HorizontalScrollViewAdapter {
         }
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(viewHolder.mImg,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-        mLoader.get(picHead+mDatas.get(position),listener,200,200);
+        mLoader.get(URI.HousesPic+mDatas.get(position),listener,200,200);
 
         return convertView;
     }

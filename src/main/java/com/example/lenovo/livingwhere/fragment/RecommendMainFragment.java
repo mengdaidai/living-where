@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import com.example.lenovo.livingwhere.util.URI;
 
 
 public class RecommendMainFragment extends ListFragment {
@@ -105,7 +106,7 @@ public class RecommendMainFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Houses house = mListData.get(position).getHouse();
+        Houses house = mListData.get(position-1).getHouse();
         mListener.showDetailsFragment(house);
         System.out.println("提出网络请求，转到相应页面");
     }
@@ -118,7 +119,7 @@ public class RecommendMainFragment extends ListFragment {
 
         //Volley框架获取数据
         GsonRequest<ArrayList<DistanceSort>> initGsonRequest = new GsonRequest<ArrayList<DistanceSort>>(Request.Method.POST,
-                "http://115.28.85.146:8080/Zhunaer/action/msg_findHousesNearby", new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
+                URI.FindHouseNearByAddr, new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
                 new Response.Listener<ArrayList<DistanceSort>>() {
                     @Override
                     public void onResponse(ArrayList<DistanceSort> houses) {
@@ -153,7 +154,7 @@ public class RecommendMainFragment extends ListFragment {
             public void onDownPullRefresh() {
                 //下拉刷新，利用Volley框架请求数据并更新当前数据
                 GsonRequest<ArrayList<DistanceSort>> pullDownGsonRequest = new GsonRequest<ArrayList<DistanceSort>>(Request.Method.POST,
-                        "http://115.28.85.146:8080/Zhunaer/action/msg_findHousesNearby", new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
+                        URI.FindHouseNearByAddr, new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
                         new Response.Listener<ArrayList<DistanceSort>>() {
                             @Override
                             public void onResponse(ArrayList<DistanceSort> houses) {
@@ -187,7 +188,7 @@ public class RecommendMainFragment extends ListFragment {
             public void onLoadingMore() {
                 //上拉加载，利用Volley框架请求数据并更新当前数据
                 GsonRequest<ArrayList<DistanceSort>> loadMoreGsonRequest = new GsonRequest<ArrayList<DistanceSort>>(Request.Method.POST,
-                        "http://115.28.85.146:8080/Zhunaer/action/msg_findHousesNearby", new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
+                        URI.FindHouseNearByAddr, new TypeToken<ArrayList<DistanceSort>>(){}.getType(),
                         new Response.Listener<ArrayList<DistanceSort>>() {
                             @Override
                             public void onResponse(ArrayList<DistanceSort> houses) {

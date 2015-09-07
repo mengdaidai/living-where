@@ -26,6 +26,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -61,7 +62,6 @@ public class MyHouseAdapter extends BaseAdapter {
     ImageLoader imageLoader;
     Gson gson = new Gson();
     Context context;
-    final String picHead = "http://115.28.85.146:8080/Zhunaer/upload/housesPic/";
     int i = 1;
     public MyHouseAdapter(Context context, List<Houses> houseInfo) {
         super();
@@ -198,7 +198,7 @@ public class MyHouseAdapter extends BaseAdapter {
         List<String> pics = gson.fromJson(houseInfo.get(position).getPictures(), new TypeToken<List<String>>() {
         }.getType());
         if(pics.size()!=0)
-            imageLoader.get(picHead + pics.get(0), listener, 200, 200);
+            imageLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
         //这里数据有些差错，完了再改
         holder.price.setText(String.valueOf(houseInfo.get(position).getHid()));
         holder.text_count.setText(String.valueOf(houseInfo.get(position).getHid()));
