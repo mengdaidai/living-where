@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.livingwhere.fragment.DatePickerFragment;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 
 import java.io.UnsupportedEncodingException;
@@ -141,7 +142,7 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(orderRequest);
+                MyApplication.mQueue.add(orderRequest);
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {

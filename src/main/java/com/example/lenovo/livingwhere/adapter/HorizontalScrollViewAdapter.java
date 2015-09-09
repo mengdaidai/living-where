@@ -10,6 +10,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class HorizontalScrollViewAdapter {
         this.mContext = context;
         mInflater = LayoutInflater.from(context);
         this.mDatas = mDatas;
-        mLoader = new ImageLoader(MainActivity.mQueue, new BitmapCache());
+        mLoader = new ImageLoader(MyApplication.mQueue, new BitmapCache());
 
     }
 

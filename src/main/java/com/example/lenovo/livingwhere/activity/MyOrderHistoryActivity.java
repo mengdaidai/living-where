@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.entity.BookHistoryObj;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.adapter.MyOrderExpandableAdapter;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,7 +80,7 @@ public class MyOrderHistoryActivity extends AppCompatActivity {
                 return map;
             }
         };
-        MainActivity.mQueue.add(myOrderHistoryGsonRequest);
+        MyApplication.mQueue.add(myOrderHistoryGsonRequest);
     }
 
 

@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.DistanceSort;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,7 @@ public class RecommendAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.houseInfo = houseInfo;
-        imageLoader = new ImageLoader(MainActivity.mQueue, new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue, new BitmapCache());
     }
 
     @Override
@@ -82,9 +83,9 @@ public class RecommendAdapter extends BaseAdapter {
         if(pics.size()!=0)
         imageLoader.get(URI.HousesPic+pics.get(0),listener,200,200);
         //这里数据有些差错，完了再改
-        holder.price.setText(String.valueOf(info.getHouse().getPrice()));
-        holder.text_count.setText(String.valueOf(info.getHouse().getAmount()));
-        holder.text_location.setText(info.getHouse().getAddress());
+        holder.price.setText(String.valueOf(info.getHouse().getPrice())+"/天");
+        holder.text_count.setText("交易数量:"+String.valueOf(info.getHouse().getAmount()));
+        holder.text_location.setText("地    址:"+info.getHouse().getAddress());
 
 
 

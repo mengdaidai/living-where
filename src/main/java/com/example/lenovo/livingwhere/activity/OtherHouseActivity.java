@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.entity.Houses;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
@@ -26,6 +28,7 @@ import com.example.lenovo.livingwhere.adapter.HouseDisplayAdapter;
 import com.example.lenovo.livingwhere.adapter.MyHouseAdapter;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +66,15 @@ public class OtherHouseActivity extends AppCompatActivity {
         if(type == 0){//查看房东其他房子
             setContentView(R.layout.activity_other_house);
             mListView = (RefreshListView)findViewById(R.id.other_house_listview);
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Houses house = mListData.get(position-1);
+                    Intent intent = new Intent(OtherHouseActivity.this,HouseDetailsActivity.class);
+                    intent.putExtra("house",(Serializable)house);
+                    startActivity(intent);
+                }
+            });
             //Volley框架获取数据
             GsonRequest<ArrayList<Houses>> initGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
                     URI.GetOtherHousesAddr, new TypeToken<ArrayList<Houses>>(){}.getType(),
@@ -70,10 +82,8 @@ public class OtherHouseActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(ArrayList<Houses> houses) {
                             mListData = new ArrayList<Houses>(houses);
-                            System.out.println("mlistData  "+mListData);
                             mAdapter = new HouseDisplayAdapter(OtherHouseActivity.this, mListData);
                             mListView.setAdapter(mAdapter);
-                            System.out.println("setListAdapter");
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -89,7 +99,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                     return map;
                 }
             };
-            MainActivity.mQueue.add(initGsonRequest);
+            MyApplication.mQueue.add(initGsonRequest);
 
 
             mListView.setOnRefreshListener(new OnRefreshListener() {
@@ -121,7 +131,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                             return map;
                         }
                     };
-                    MainActivity.mQueue.add(pullDownGsonRequest);
+                    MyApplication.mQueue.add(pullDownGsonRequest);
 
                 }
 
@@ -176,6 +186,15 @@ public class OtherHouseActivity extends AppCompatActivity {
             else{//该用户确实为房主
                 setContentView(R.layout.activity_other_house);
                 mListView = (RefreshListView)findViewById(R.id.other_house_listview);
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Houses house = mListData.get(position-1);
+                        Intent intent = new Intent(OtherHouseActivity.this,HouseDetailsActivity.class);
+                        intent.putExtra("house",(Serializable)house);
+                        startActivity(intent);
+                    }
+                });
                 //Volley框架获取数据
                 GsonRequest<ArrayList<Houses>> initGsonRequest = new GsonRequest<ArrayList<Houses>>(Request.Method.POST,
                         URI.GetMyReleasedHousesAddr, new TypeToken<ArrayList<Houses>>(){}.getType(),
@@ -202,7 +221,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(initGsonRequest);
+                MyApplication.mQueue.add(initGsonRequest);
 
 
                 mListView.setOnRefreshListener(new OnRefreshListener() {
@@ -235,7 +254,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                                 return map;
                             }
                         };
-                        MainActivity.mQueue.add(pullDownGsonRequest);
+                        MyApplication.mQueue.add(pullDownGsonRequest);
 
                     }
 

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 
 /**
@@ -75,7 +76,7 @@ public class BigPictureActivity extends AppCompatActivity {
                     }
                 });
                 image =(ImageView)findViewById(R.id.big_head_pic_image);
-                imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
+                imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 if(bundle.getInt("from")==1)//代表房子相关
@@ -88,7 +89,7 @@ public class BigPictureActivity extends AppCompatActivity {
                 image = (ImageView)findViewById(R.id.big_picture_image);
                 position = (int)bundle.get("position");
                 url = (String)bundle.get("url");
-                imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
+                imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 imageLoader.get(URI.HousesPic+url,listener);

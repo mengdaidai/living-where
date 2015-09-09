@@ -22,5 +22,6 @@
     <string name="title_activity_edit_house">EditHouseActivity</string>
     <string name="title_activity_house_comment">HouseCommentActivity</string>
     <string name="waitingDialog">请稍后。。。</string>
+    <string name="title_activity_house_details">HouseDetailsActivity</string>
 
 </resources>

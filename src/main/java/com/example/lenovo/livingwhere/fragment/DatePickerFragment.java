@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.activity.OrderActivity;
 import com.example.lenovo.livingwhere.activity.SelectionConditionActivity;
 
@@ -44,7 +45,7 @@ public class DatePickerFragment extends DialogFragment {
         if(type == 0)
             return new DatePickerDialog(getActivity(), (OrderActivity)getActivity(), year, month, day);
         else
-            return new DatePickerDialog(getActivity(), (SelectionConditionActivity)getActivity(), year, month, day);
+            return new DatePickerDialog(getActivity(), (FindHouseFragment)((MainActivity)getActivity()).fragments[2], year, month, day);
 
 
     }

@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.entity.RentHistoryObj;
 import com.example.lenovo.livingwhere.adapter.MyRentExpandableAdapter;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.reflect.TypeToken;
 
@@ -77,6 +78,6 @@ public class MyRentNoteActivity extends Activity {
                 return map;
             }
         };
-        MainActivity.mQueue.add(myOrderHistoryGsonRequest);
+        MyApplication.mQueue.add(myOrderHistoryGsonRequest);
     }
 }

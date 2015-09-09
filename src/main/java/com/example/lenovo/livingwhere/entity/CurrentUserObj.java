@@ -6,7 +6,7 @@ package com.example.lenovo.livingwhere.entity;
 public class CurrentUserObj {
     String signature = "小公举";
     String nickname = "戴戴";
-    String headPic = "http://115.28.85.146/Zhunaer/upload/commentsPic/3.jpg";
+    String headPic = "3.jpg";
     String phoneNum;
     String password;
     String message;

@@ -3,14 +3,16 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <ImageView
+    <com.example.lenovo.livingwhere.view.RoundCornerImageView
         android:id="@+id/item_recommend_houseImage"
         android:layout_gravity="center_vertical"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rectangle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/house"
-        android:layout_weight="3"
+        android:scaleType="fitXY"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
         />
     
     <LinearLayout
@@ -21,7 +23,7 @@
         android:layout_weight="6">
 
         <LinearLayout
-            android:paddingTop="7dp"
+            android:paddingTop="17dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -42,7 +44,7 @@
                 android:textSize="30px"/>
         </LinearLayout>
         <LinearLayout
-            android:paddingTop="7dp"
+            android:paddingTop="17dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -58,13 +60,13 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="可住人数："
+                android:text="交易数量："
                 android:textColor="#ffffff"
                 android:textSize="30px"/>
         </LinearLayout>
         <TextView
             android:id="@+id/item_recommend_price"
-            android:paddingTop="7dp"
+            android:paddingTop="17dp"
             android:paddingBottom="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

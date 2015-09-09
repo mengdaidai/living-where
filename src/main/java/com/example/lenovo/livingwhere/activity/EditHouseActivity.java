@@ -34,10 +34,7 @@ public class EditHouseActivity extends AppCompatActivity implements OnFragmentLi
     }
 
 
-    @Override
-    public void showDetailsFragment(Houses house) {
 
-    }
 
     @Override
     public void updateMyHouseList(Houses house) {

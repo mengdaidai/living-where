@@ -35,6 +35,7 @@ import com.example.lenovo.livingwhere.util.AfterPicSelection;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
@@ -223,7 +224,7 @@ public class ReleaseHouseFragment extends Fragment {
                     }
                 }
                 );
-                MainActivity.mQueue.add(request);
+                MyApplication.mQueue.add(request);
 
             }
 
@@ -259,9 +260,6 @@ public class ReleaseHouseFragment extends Fragment {
                     intent.setClass(getActivity(), BigPictureActivity.class);
                     startActivityForResult(intent, 2);
 
-                    //dialog(position);
-                    //Toast.makeText(MainActivity.this, "�����"+(position + 1)+" ��ͼƬ",
-                    //      Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -316,7 +314,7 @@ public class ReleaseHouseFragment extends Fragment {
 
                                 }
                             });
-                            MainActivity.mQueue.add(uploadRequest);
+                           MyApplication.mQueue.add(uploadRequest);
                         }
                     }else{//图片来自网络
                         ImageRequest request = new ImageRequest(URI.HousesPic + (String) map1.get("url"), new Response.Listener<Bitmap>() {
@@ -353,7 +351,7 @@ public class ReleaseHouseFragment extends Fragment {
 
                                             }
                                         });
-                                        MainActivity.mQueue.add(uploadRequest);
+                                        MyApplication.mQueue.add(uploadRequest);
 
                             }
                         }
@@ -364,7 +362,7 @@ public class ReleaseHouseFragment extends Fragment {
                             }
                         }
                         );
-                        MainActivity.mQueue.add(request);
+                        MyApplication.mQueue.add(request);
                     }
                     i++;
                 }

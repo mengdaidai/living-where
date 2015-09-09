@@ -26,6 +26,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +41,7 @@ import java.util.Map;
  */
 class MyHouseViewHolder implements Cloneable{
     public ImageView houseImage;
-    public TextView text_rentime, text_location, text_count, price;
+    public TextView text_location, text_count, price;
     Button offLineButton,editButton;
 
     @Override
@@ -68,7 +69,7 @@ public class MyHouseAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.houseInfo = houseInfo;
-        imageLoader = new ImageLoader(MainActivity.mQueue, new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue, new BitmapCache());
         this.context = context;
     }
 
@@ -90,14 +91,13 @@ public class MyHouseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
        // Toast.makeText(context,"重新绘制",Toast.LENGTH_SHORT).show();
-        final Houses info = houseInfo.get(position);
+        Houses info = houseInfo.get(position);
         MyHouseViewHolder holder;
         if (convertView == null) {
             holder = new MyHouseViewHolder();
             convertView = mInflater.inflate(R.layout.item_my_house, null);
             holder.houseImage = (ImageView) convertView.findViewById(R.id.item_my_house_houseImage);
             holder.price = (TextView) convertView.findViewById(R.id.item_my_house_price);
-            holder.text_rentime = (TextView) convertView.findViewById(R.id.item_my_house_text_rentime);
             holder.text_location = (TextView) convertView.findViewById(R.id.item_my_house_text_location);
             holder.text_count = (TextView) convertView.findViewById(R.id.item_my_house_text_count);
             holder.offLineButton = (Button)convertView.findViewById(R.id.item_my_house_xiajia);
@@ -118,7 +118,7 @@ public class MyHouseAdapter extends BaseAdapter {
                     final Button button = (Button)v;
                     final int mPosition = (int)v.getTag();
                     Toast.makeText(context,"tag!!!!!!!!!!"+mPosition,Toast.LENGTH_SHORT);
-                    StringRequest uploadRequest = new StringRequest(Request.Method.POST, "http://115.28.85.146:8080/Zhunaer/" + "action/modify_changeStateOfHouses", new Response.Listener<String>() {
+                    StringRequest uploadRequest = new StringRequest(Request.Method.POST, URI.ChangeStateOfHousesAddr, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
@@ -167,7 +167,7 @@ public class MyHouseAdapter extends BaseAdapter {
                             return Response.success(mString, HttpHeaderParser.parseCacheHeaders(response));
                         }
                     };
-                    MainActivity.mQueue.add(uploadRequest);
+                    MyApplication.mQueue.add(uploadRequest);
 
                 }
             });
@@ -200,20 +200,13 @@ public class MyHouseAdapter extends BaseAdapter {
         if(pics.size()!=0)
             imageLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
         //这里数据有些差错，完了再改
-        holder.price.setText(String.valueOf(houseInfo.get(position).getHid()));
-        holder.text_count.setText(String.valueOf(houseInfo.get(position).getHid()));
-        holder.text_location.setText(houseInfo.get(position).getAddress());
-        holder.text_rentime.setText(String.valueOf(houseInfo.get(position).getState()));
+        holder.price.setText(String.valueOf(info.getPrice())+"/天");
+        holder.text_count.setText("交易数量:"+String.valueOf(info.getAmount()));
+        holder.text_location.setText("地    点：" + info.getAddress());
 
 
 
-        /*convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { // 加载详细新闻
-                detailUrl = mListData.get(position).childUrl;
-                AnsynHttpRequest.requestByGet(context, callbackData, R.string.http_news_detail, detailUrl, true, true, false);
-            }
-        });*/
+
         return convertView;
 
 

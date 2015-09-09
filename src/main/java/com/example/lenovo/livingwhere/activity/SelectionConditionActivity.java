@@ -21,6 +21,7 @@ import com.example.lenovo.livingwhere.entity.DistanceSort;
 import com.example.lenovo.livingwhere.fragment.DatePickerFragment;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
@@ -125,7 +126,7 @@ public class SelectionConditionActivity extends Activity implements View.OnClick
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(myOrderHistoryGsonRequest);
+                MyApplication.mQueue.add(myOrderHistoryGsonRequest);
                 break;
             case R.id.selection_condition_cancel:
                 setResult(RESULT_OK);

@@ -6,15 +6,15 @@ import java.io.Serializable;
  * 房子实体
  */
 public class Houses implements Serializable{
-    int hid;//��������
-    String contactPhone;//��ϵ�绰
-    int price;//��Ǯ
-    int size;//��С
-    String description;//����
-    String pictures;//ͼƬjson
-    String address;//��ַ
-    double longitude;//����
-    double latitude;//γ��
+    int hid;//房子索引
+    String contactPhone;//联系电话
+    int price;//价格
+    int size;//大小
+    String description;//描述
+    String pictures;//图片
+    String address;//地址
+    double longitude;//经度
+    double latitude;//纬度
     int amount;//交易数量
     double star;//星级
     int type;//0表示普通个人房子，1表示酒店

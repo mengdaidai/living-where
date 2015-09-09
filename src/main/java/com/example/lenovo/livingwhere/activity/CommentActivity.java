@@ -28,6 +28,7 @@ import com.example.lenovo.livingwhere.util.AfterPicSelection;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 
 import java.io.BufferedOutputStream;
@@ -160,7 +161,7 @@ public class CommentActivity extends AppCompatActivity {
 
                     }
                 });
-                MainActivity.mQueue.add(uploadRequest);
+                MyApplication.mQueue.add(uploadRequest);
 
 
             }

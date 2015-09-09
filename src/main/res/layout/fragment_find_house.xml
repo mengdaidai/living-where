@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.lenovo.livingwhere.fragment.FindHouseFragment">
+    tools:context="com.example.lenovo.livingwhere.fragment.FindHouseFragment"
+    android:background="@drawable/recommend_bg_home">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -12,25 +13,34 @@
         <Spinner
             android:id="@+id/find_house_price"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             ></Spinner>
 
         <Button
             android:id="@+id/find_house_in"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="入住时间"/>
+            android:layout_height="30dp"
+            android:text="入住时间"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:background="#ffffff"/>
         <Button
             android:id="@+id/find_house_leave"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="离开时间"/>
+            android:layout_height="30dp"
+            android:text="离开时间"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:background="#ffffff"/>
 
         <Button
             android:id="@+id/find_house_submit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="确认"/>
+            android:layout_height="30dp"
+            android:text="确认"
+            android:textColor="#000000"
+            android:textSize="10dp"
+            android:background="#ffffff"/>
 
     </LinearLayout>
 

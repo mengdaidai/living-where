@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.lenovo.livingwhere.entity.CommentObj;
 import com.example.lenovo.livingwhere.net.GsonRequest;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
@@ -63,7 +64,7 @@ public class HouseCommentActivity extends AppCompatActivity {
                 return map;
             }
         };
-        MainActivity.mQueue.add(request);
+        MyApplication.mQueue.add(request);
         mListview.setOnRefreshListener(new OnRefreshListener() {
             //下拉刷新
             @Override
@@ -92,7 +93,7 @@ public class HouseCommentActivity extends AppCompatActivity {
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(request);
+                MyApplication.mQueue.add(request);
             }
             //上拉加载
             @Override
@@ -121,7 +122,7 @@ public class HouseCommentActivity extends AppCompatActivity {
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(request);
+                MyApplication.mQueue.add(request);
             }
         });
 

@@ -23,16 +23,18 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.Houses;
-import com.example.lenovo.livingwhere.view.OnFragmentListener;
+import com.example.lenovo.livingwhere.util.BitmapCache;
+import com.example.lenovo.livingwhere.util.MyApplication;
+import com.example.lenovo.livingwhere.util.URI;
+import com.example.lenovo.livingwhere.view.CircleImageView;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.fragment.FindHouseFragment;
-import com.example.lenovo.livingwhere.fragment.HouseDetailsFragment;
 import com.example.lenovo.livingwhere.fragment.RecommendMainFragment;
 import com.example.lenovo.livingwhere.fragment.ReleaseHouseFragment;
 import com.example.lenovo.livingwhere.adapter.SlideMenuAdapter;
 import com.example.lenovo.livingwhere.entity.CurrentUserObj;
+import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.google.gson.Gson;
 import com.nineoldandroids.view.ViewHelper;
 import com.baidu.location.BDLocation;
@@ -51,19 +53,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int currentTabIndex;//正在显示的fragment的index
 
-    private Fragment[] fragments;
+    static public Fragment[] fragments;
     private RecommendMainFragment fragment1;//首页推荐
     private ReleaseHouseFragment fragment2;//发布房子
     private FindHouseFragment fragment3;//找房子
-    private HouseDetailsFragment fragment4;//房子详情
     private DrawerLayout drawerLayout;
-    private ImageButton headButton;//头像
+    private CircleImageView headImageView;//头像
 
 
     public Button locationButton;//定位按钮
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
-    public static RequestQueue mQueue ;//Volley请求队列，找你哥哥application仅此一个
     public ListView slideMenuListView;//侧滑栏里显示的条目
     public SlideMenuAdapter slideMenuAdapter;
     public List<String> slideMenuText;
@@ -74,11 +74,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode){
+            case 1://查看个人信息返回
+                headImageView.setImageBitmap(MyApplication.smallHeadBitmap);
+                break;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("onCreate");
         setContentView(R.layout.activity_main);
-        mQueue = Volley.newRequestQueue(this);
         userObj = new CurrentUserObj();
         initView();
         initEvents();
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        headButton = (ImageButton)findViewById(R.id.actionbar_recommend_main_head);
+        headImageView = (CircleImageView)findViewById(R.id.actionbar_recommend_main_head);
         locationButton = (Button)findViewById(R.id.actionbar_location);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
@@ -108,21 +116,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainTabs[0].setOnClickListener(this);
         mainTabs[1].setOnClickListener(this);
         mainTabs[2].setOnClickListener(this);
-        headButton.setOnClickListener(this);
+        headImageView.setOnClickListener(this);
 
 
         fragment1 = new RecommendMainFragment();
         fragment2 = new ReleaseHouseFragment();
         fragment3 = new FindHouseFragment();
-        fragment4 = new HouseDetailsFragment();
-        fragments = new Fragment[]{fragment1, fragment2, fragment3,fragment4};
+        fragments = new Fragment[]{fragment1, fragment2, fragment3};
 
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, fragments[0])
                 .add(R.id.fragment_container, fragments[1])
                 .add(R.id.fragment_container, fragments[2])
-                .add(R.id.fragment_container,fragments[3])
-                .hide(fragments[1]).hide(fragments[2]).hide(fragments[3])
+                .hide(fragments[1]).hide(fragments[2])
                 .show(fragments[0]).commit();
         //侧滑栏相关
         slideMenuListView = (ListView)findViewById(R.id.left_menu);
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://个人信息
-                        startActivity(new Intent(MainActivity.this, MyInfoActivity.class));
+                        startActivityForResult(new Intent(MainActivity.this, MyInfoActivity.class), 1);
                         break;
                     case 1://我的预约历史
                         startActivity(new Intent(MainActivity.this, MyOrderHistoryActivity.class));
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 2://我的出租房订单
                         startActivity(new Intent(MainActivity.this, MyRentNoteActivity.class));
                         break;
-                    case 3:
+                    case 3://我的出租房
                         Intent intent = new Intent(MainActivity.this, OtherHouseActivity.class);
                         intent.putExtra("type",1);
                         startActivity(intent);
@@ -156,10 +162,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         slideMenuListView.setAdapter(slideMenuAdapter);
 
 
-        imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
-        ImageLoader.ImageListener listener = ImageLoader.getImageListener(headButton,
+        imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
+        ImageLoader.ImageListener listener = ImageLoader.getImageListener(headImageView,
                 R.drawable.pic_head_normal, R.drawable.pic_head_selected);
-        imageLoader.get(userObj.getHeadPic(), listener,200,200);
+        imageLoader.get(URI.HeadPic+userObj.getHeadPic(), listener,200,200);
 
     }
 
@@ -229,20 +235,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         }
-        if(currentTabIndex == 3){
-            if(index!=0){
-                mainTabs[index].setBackgroundColor(Color.rgb(1, 175, 242));
-                mainTabs[0].setBackgroundColor(Color.rgb(242, 114, 112));
-                FragmentTransaction trx = getFragmentManager().beginTransaction();
-                trx.hide(fragments[currentTabIndex]);
-                if (!fragments[index].isAdded()) {
-                    trx.add(R.id.fragment_container, fragments[index]);
-                }
-                trx.show(fragments[index]).commit();
-            }
 
-        }
-        else if (currentTabIndex != index) {
+        if (currentTabIndex != index) {
             mainTabs[index].setBackgroundColor(Color.rgb(1, 175, 242));
 
             mainTabs[currentTabIndex].setBackgroundColor(Color.rgb(242, 114, 112));
@@ -309,20 +303,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLocationClient.start();
     }
 
-    //OnFragmentListener必须实现的函数,用于展示房子详情页面
-    @Override
-    public void showDetailsFragment(Houses house) {
-        getFragmentManager().beginTransaction()
-                .hide(fragments[currentTabIndex])
-                .show(fragments[3]).commit();
-        currentTabIndex = 3;
-        fragment4.displayDetails(house);
-    }
-    //OnFragmentListener必须实现的函数
     @Override
     public void updateMyHouseList(Houses house) {
 
     }
+
+
     //百度地图定位
     public class MyLocationListener implements BDLocationListener {
         @Override
@@ -413,6 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("BaiduLocationApiDem", sb.toString());
         }
     }
+
 
 
 

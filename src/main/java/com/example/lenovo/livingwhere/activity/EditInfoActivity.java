@@ -31,6 +31,7 @@ import com.example.lenovo.livingwhere.entity.CurrentUserObj;
 import com.example.lenovo.livingwhere.util.FormImage;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 
@@ -54,7 +55,6 @@ public class EditInfoActivity extends AppCompatActivity {
     String[] genderString = {"男","女"};
     ArrayAdapter<String> adapter;
     boolean headChanged = false;
-    static Bitmap smallBitmap;//压缩后的缩略图
     int gender;
     ImageLoader imageLoader;
     Gson gson;
@@ -100,10 +100,10 @@ public class EditInfoActivity extends AppCompatActivity {
         qianmingEdit = (EditText)findViewById(R.id.edit_info_gexingqianming);
         qianmingEdit.setText(MainActivity.userObj.getSignature());
         headPic = (ImageView)findViewById(R.id.edit_info_head_pic);
-        imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headPic,
-                R.drawable.pic_head_normal, R.drawable.pic_head_selected);
-        imageLoader.get(MainActivity.userObj.getHeadPic(), listener,200,200);
+                R.drawable.my_info_btn_header, R.drawable.my_info_btn_header);
+        imageLoader.get(URI.HeadPic+MainActivity.userObj.getHeadPic(), listener,200,200);
 
         //将可选内容与ArrayAdapter连接起来
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,genderString);
@@ -187,7 +187,7 @@ public class EditInfoActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError volleyError) {
                     }
                 });
-                MainActivity.mQueue.add(editInfoRequest);
+                MyApplication.mQueue.add(editInfoRequest);
             }
         });
 
@@ -207,6 +207,7 @@ public class EditInfoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             headPic.setImageBitmap(bitmap);
+            MyApplication.smallHeadBitmap = bitmap;
 
         }
     }

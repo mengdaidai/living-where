@@ -3,6 +3,7 @@ package com.example.lenovo.livingwhere.fragment;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.lenovo.livingwhere.activity.HouseDetailsActivity;
 import com.example.lenovo.livingwhere.entity.DistanceSort;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
@@ -25,6 +28,7 @@ import com.example.lenovo.livingwhere.view.RefreshListView;
 import com.example.lenovo.livingwhere.adapter.RecommendAdapter;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,16 +66,11 @@ public class RecommendMainFragment extends ListFragment {
 
     private LayoutInflater mInflater;
 
-    private OnFragmentListener mListener;
 
     public RecommendMainFragment() {
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mListener = (OnFragmentListener)activity;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,9 @@ public class RecommendMainFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Houses house = mListData.get(position-1).getHouse();
-        mListener.showDetailsFragment(house);
+        Intent intent = new Intent(getActivity(), HouseDetailsActivity.class);
+        intent.putExtra("house",(Serializable)house);
+        startActivity(intent);
         System.out.println("提出网络请求，转到相应页面");
     }
 
@@ -145,7 +146,7 @@ public class RecommendMainFragment extends ListFragment {
                 return map;
             }
         };
-        MainActivity.mQueue.add(initGsonRequest);
+        MyApplication.mQueue.add(initGsonRequest);
 
 
         mListView.setOnRefreshListener(new OnRefreshListener() {
@@ -179,7 +180,7 @@ public class RecommendMainFragment extends ListFragment {
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(pullDownGsonRequest);
+                MyApplication.mQueue.add(pullDownGsonRequest);
 
                 Log.i(tag,"下拉刷新");
             }
@@ -212,7 +213,7 @@ public class RecommendMainFragment extends ListFragment {
                         return map;
                     }
                 };
-                MainActivity.mQueue.add(loadMoreGsonRequest);
+                MyApplication.mQueue.add(loadMoreGsonRequest);
                 Log.i(tag,"上拉加载");
             }
         });

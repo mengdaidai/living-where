@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.util;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -14,7 +15,8 @@ public class MyApplication extends Application {
     private static MyApplication app;
     public static RequestQueue mQueue;//Volley请求队列application仅此一个
     //问韩寒
-    CurrentUserObj user;
+    public static CurrentUserObj user;
+    public static Bitmap smallHeadBitmap;
 
     @Override
     public void onCreate()// 初始化全局变量

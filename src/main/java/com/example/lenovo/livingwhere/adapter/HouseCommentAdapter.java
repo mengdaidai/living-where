@@ -13,6 +13,7 @@ import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.CommentObj;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,7 +24,7 @@ import java.util.List;
  * 查看某房子所有评论的适配器
  */
  class HouseCommentViewHolder {
-    public TextView text_message, text_nickname, text_type;//评论内容，昵称，长租或短租
+    public TextView text_message, text_nickname;//评论内容，昵称
     public ImageView image_head;//显示头像
     public ImageView[] commentPics;//评论的图片们~
 
@@ -42,7 +43,7 @@ public class HouseCommentAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.commentInfo = commentInfo;
-        imageLoader = new ImageLoader(MainActivity.mQueue, new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue, new BitmapCache());
         this.context = context;
     }
 
@@ -75,7 +76,6 @@ public class HouseCommentAdapter extends BaseAdapter {
             holder.commentPics[3] = (ImageView) convertView.findViewById(R.id.house_comment_pic4);
             holder.text_message = (TextView) convertView.findViewById(R.id.house_comment_message);
             holder.text_nickname = (TextView) convertView.findViewById(R.id.house_comment_nickname);
-            //holder.text_type = (TextView) convertView.findViewById(R.id.house_comment_);
             holder.image_head = (ImageView)convertView.findViewById(R.id.house_comment_pic_head);
             convertView.setTag(holder);
         } else {

@@ -1,16 +1,19 @@
 package com.example.lenovo.livingwhere.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 
 /**
@@ -19,6 +22,7 @@ import com.example.lenovo.livingwhere.util.URI;
 public class MyInfoActivity extends AppCompatActivity {
 
     Button editButton;
+    ImageButton backButton;
     TextView nicknameText,ageText,signatureText,genderText;
     ImageView headPicImageView;//头像
     ImageLoader imageLoader;
@@ -29,6 +33,7 @@ public class MyInfoActivity extends AppCompatActivity {
         System.out.println("MyInfoActivity的回调！！！！！！！");
         switch(requestCode){
             case 1://编辑信息的请求
+                if(data == null) return;
                 Bundle bundle = data.getExtras();
                 nicknameText.setText(MainActivity.userObj.getNickname());
                 ageText.setText(Integer.toString(MainActivity.userObj.getAge()));
@@ -38,8 +43,10 @@ public class MyInfoActivity extends AppCompatActivity {
                 else
                     genderText.setText("女");
                 boolean picChanged = (boolean)bundle.get("picChanged");
-                if(picChanged) headPicImageView.setImageBitmap(EditInfoActivity.smallBitmap);
-                //这是一种直接传bitmap的方法，还有在CommentActivity中记得尝试将decodeFile异步进行，不然好卡啊啊啊啊！！！！！！！
+                if(picChanged) {
+                    headPicImageView.setImageBitmap(MyApplication.smallHeadBitmap);
+                }
+
 
                 break;
             case 2://查看大图的请求
@@ -57,8 +64,6 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     public void initView(){
-        Intent intent = new Intent();
-        Bundle bundle = intent.getExtras();
         editButton = (Button)findViewById(R.id.my_info_edit);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +86,9 @@ public class MyInfoActivity extends AppCompatActivity {
                 startActivityForResult(intent, 2);
             }
         });
-        imageLoader = new ImageLoader(MainActivity.mQueue,new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headPicImageView,
-                R.drawable.pic_head_normal, R.drawable.pic_head_selected);
-        System.out.println(MainActivity.userObj.getHeadPic());
+                R.drawable.my_info_btn_header, R.drawable.my_info_btn_header);
         imageLoader.get(URI.HeadPic+MainActivity.userObj.getHeadPic(), listener, 200, 200);
         nicknameText = (TextView)findViewById(R.id.my_info_nick_name);
         nicknameText.setText(MainActivity.userObj.getNickname());
@@ -97,6 +101,13 @@ public class MyInfoActivity extends AppCompatActivity {
             genderText.setText("女");
         signatureText = (TextView)findViewById(R.id.my_info_gexingqianming);
         signatureText.setText(MainActivity.userObj.getSignature());
+        backButton = (ImageButton)findViewById(R.id.actionbar_my_info_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
