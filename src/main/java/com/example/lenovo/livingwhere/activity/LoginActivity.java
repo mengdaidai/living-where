@@ -1,5 +1,4 @@
 package com.example.lenovo.livingwhere.activity;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -152,6 +150,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 new Response.Listener<CurrentUserObj>() {
                     @Override
                     public void onResponse(CurrentUserObj user) {
+                        MyApplication.user = user;
                         Toast.makeText(LoginActivity.this,
                                 user.getMessage(), Toast.LENGTH_SHORT)
                                 .show();

@@ -15,8 +15,10 @@ public class MyApplication extends Application {
     private static MyApplication app;
     public static RequestQueue mQueue;//Volley请求队列application仅此一个
     //问韩寒
+
     public static CurrentUserObj user;
     public static Bitmap smallHeadBitmap;
+
 
     @Override
     public void onCreate()// 初始化全局变量
