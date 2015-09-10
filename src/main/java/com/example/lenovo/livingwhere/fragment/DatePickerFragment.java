@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.activity.OrderActivity;
-import com.example.lenovo.livingwhere.activity.SelectionConditionActivity;
 
 import java.util.Calendar;
 

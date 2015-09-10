@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="#01B9FF">
+
+
+    <com.example.lenovo.livingwhere.view.CircleImageView
+        android:id="@+id/actionbar_recommend_main_head"
+        android:layout_width="@dimen/toolbar_head_size"
+        android:layout_height="@dimen/toolbar_head_size"
+        android:src="@drawable/pic_head_normal"
+        android:layout_gravity="center_vertical"
+        app:border_width="0dp"
+        app:border_color="@android:color/transparent"
+        android:layout_marginRight="@dimen/toolbar_head_margin_right"
+        android:layout_marginLeft="@dimen/toolbar_head_margin_left"
+    />
+
+    <View
+        android:layout_width="@dimen/view_width"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:layout_marginTop="@dimen/view_marginTopOrBottom"
+        android:layout_marginBottom="@dimen/view_marginTopOrBottom"
+        />
+
+    <Button
+        android:id="@+id/actionbar_location"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="当前位置"
+        android:background="@android:color/transparent"
+        android:layout_marginLeft = "18dp"/>
+
+
+
+
+</LinearLayout>

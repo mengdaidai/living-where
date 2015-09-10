@@ -12,4 +12,5 @@
     <color name="color_greyandwhite">#fff5f5f5</color>
     <color name="color_text_green">#ff369162</color>
     <color name="color_pink">#ffff9e9e</color>
+    <color name="color_toolbar">#01b9ff</color>
 </resources>

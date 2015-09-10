@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -23,7 +24,8 @@ import com.example.lenovo.livingwhere.util.URI;
 
 public class BigPictureActivity extends AppCompatActivity {
     ImageView image;
-    ImageButton deleteButton,backButton;
+    ImageButton backButton;
+    Button deleteButton;
     String localPath,url;
     int position;//记录点击位置
     Intent intent;
@@ -50,14 +52,14 @@ public class BigPictureActivity extends AppCompatActivity {
                 position = (int)bundle.get("position");
                 Bitmap bmp = BitmapFactory.decodeFile(localPath);
                 image.setImageBitmap(bmp);
-                deleteButton = (ImageButton)findViewById(R.id.actionbar_big_picture_deleteButton);
+                deleteButton = (Button)findViewById(R.id.toolbar_back_title_delete_delete);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog();
                     }
                 });
-                backButton = (ImageButton)findViewById(R.id.actionbar_big_picture_backButton);
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_delete_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -68,7 +70,7 @@ public class BigPictureActivity extends AppCompatActivity {
             case 2://有url,不可以删除的大图（房子详情、头像）
                 setContentView(R.layout.activity_big_head_pic);
                 url = (String)bundle.get("url");
-                backButton = (ImageButton)findViewById(R.id.big_head_pic_back);
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -93,14 +95,14 @@ public class BigPictureActivity extends AppCompatActivity {
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 imageLoader.get(URI.HousesPic+url,listener);
-                deleteButton = (ImageButton)findViewById(R.id.actionbar_big_picture_deleteButton);
+                deleteButton = (Button)findViewById(R.id.toolbar_back_title_delete_delete);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog();
                     }
                 });
-                backButton = (ImageButton)findViewById(R.id.actionbar_big_picture_backButton);
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_delete_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

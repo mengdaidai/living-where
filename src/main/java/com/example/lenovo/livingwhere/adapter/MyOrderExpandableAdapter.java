@@ -1,12 +1,17 @@
 package com.example.lenovo.livingwhere.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Rating;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.livingwhere.activity.BigPictureActivity;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.BookHistoryObj;
 import com.example.lenovo.livingwhere.activity.MainActivity;
@@ -132,6 +138,7 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
                         public void onResponse(String s) {
                             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
 
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -159,6 +166,7 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
         List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getPictures(),new TypeToken<List<String>>(){}.getType());
+        if(pics!=null)
         mLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
         holder.childLocationText.setText("地    点："+childData.get(groupPosition).get(childPosition).getAddress());
         holder.childEndText.setText("离开时间:"+childData.get(groupPosition).get(childPosition).getStart());
@@ -171,5 +179,50 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
         return true;
     }
 
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View ratingView = factory.inflate(R.layout.dialog_rating,null);
+        builder.setMessage("请为该房子评分吧~");
+        builder.setTitle("提示");
+        builder.setView(ratingView);
+        builder.setPositiveButton("ȷ确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                final RatingBar bar = (RatingBar) ratingView.findViewById(R.id.rating);
+                //final DialogInterface dialogInterface = dialog;
+                StringRequest request = new StringRequest(Request.Method.POST, URI.StarScaleAddr, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        if (s.equals("操作成功")) {
+                            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("uid", String.valueOf(MyApplication.user.getUid()));
+                        map.put("stars", String.valueOf(bar.getRating()));
+                        return map;
+                    }
+                };
+                MyApplication.mQueue.add(request);
+
+
+            }
+        });
+        builder.create().show();
+    }
 
 }

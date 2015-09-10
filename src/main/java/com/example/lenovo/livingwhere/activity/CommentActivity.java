@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.activity;
 
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,9 +18,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -44,34 +47,36 @@ import java.util.Map;
  * 用于编辑评论的页面
  */
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     Button submitButton;//提交
     EditText commentEdit;//评论编辑框
-    RatingBar ratingBar;//评星级（记得去掉）
     GridView gridView;//显示图片的
     Bitmap bmp;//临时存储Bitmap
     static ArrayList<HashMap<String, Object>> imageItem;//simpleAdpter数据
     static SimpleAdapter simpleAdapter;     //gridview适配器
     int hid;
     String localPath;
+    ImageButton backButton;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
         initView();
+        initEvent();
     }
 
     public void initView() {
+        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+        title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        title.setText("编辑评论");
         Intent intent = getIntent();
         hid = intent.getIntExtra("hid",0);
         submitButton = (Button) findViewById(R.id.comment_submit);
         commentEdit = (EditText) findViewById(R.id.comment_edittext);
-        ratingBar = (RatingBar) findViewById(R.id.comment_ratingBar);
-
-
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.comment_plus_64px);
         imageItem = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -97,6 +102,14 @@ public class CommentActivity extends AppCompatActivity {
         });
         gridView.setAdapter(simpleAdapter);
 
+
+
+    }
+
+
+    public void initEvent(){
+        backButton.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,65 +123,20 @@ public class CommentActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("localPath",(String)imageItem.get(position).get("localPath"));
+                    bundle.putString("localPath", (String) imageItem.get(position).get("localPath"));
                     bundle.putInt("position", position);
-                    bundle.putInt("type",1);
+                    bundle.putInt("type", 1);
                     intent.putExtras(bundle);
-                    intent.setClass(CommentActivity.this,BigPictureActivity.class);
-                    startActivityForResult(intent,2);
+                    intent.setClass(CommentActivity.this, BigPictureActivity.class);
+                    startActivityForResult(intent, 2);
 
-                    //dialog(position);
-                    //Toast.makeText(MainActivity.this, "�����"+(position + 1)+" ��ͼƬ",
-                    //      Toast.LENGTH_SHORT).show();
                 }
             }
-
-        });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<FormImage> formImageList = new ArrayList<FormImage>();
-                int i = 1;
-                for (HashMap map : imageItem) {
-                    if(i == 1) {
-                        i++;
-                        continue;
-
-                    }
-
-                    Log.e("submit","before decode");
-                    Log.e("path", (String) map.get("localPath"));
-
-                    Bitmap bmp = BitmapFactory.decodeFile((String) map.get("localPath"));
-                    Log.e("submit", "after decode");
-                    formImageList.add(new FormImage(bmp,"pic"+(i-1),"评论图"+(i-1)+".jpg","image/jpg"));
-                    i++;
-                }
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
-                map.put("hid", String.valueOf(hid));
-                map.put("message", commentEdit.getText().toString());
-                PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList,map, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Toast.makeText(CommentActivity.this,response,Toast.LENGTH_LONG).show();
-                        System.out.println(response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
-                MyApplication.mQueue.add(uploadRequest);
-
-
-            }
-
 
         });
     }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         System.out.println("requestCode"+requestCode);
@@ -205,9 +173,52 @@ public class CommentActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.comment_submit:
+                List<FormImage> formImageList = new ArrayList<FormImage>();
+                int i = 1;
+                for (HashMap map : imageItem) {
+                    if(i == 1) {
+                        i++;
+                        continue;
 
+                    }
 
+                    Log.e("submit","before decode");
+                    Log.e("path", (String) map.get("localPath"));
 
+                    Bitmap bmp = BitmapFactory.decodeFile((String) map.get("localPath"));
+                    Log.e("submit", "after decode");
+                    formImageList.add(new FormImage(bmp,"pic"+(i-1),"评论图"+(i-1)+".jpg","image/jpg"));
+                    i++;
+                }
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("uid", String.valueOf(MyApplication.user.getUid()));
+                map.put("hid", String.valueOf(hid));
+                map.put("message", commentEdit.getText().toString());
+                PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList,map, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Toast.makeText(CommentActivity.this,response,Toast.LENGTH_LONG).show();
+                        System.out.println(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+                MyApplication.mQueue.add(uploadRequest);
+
+                break;
+            case R.id.toolbar_back_title_back:
+                finish();
+                break;
+        }
+    }
 
 
     private class UpdateViewTask extends AsyncTask<String,String,Bitmap> {

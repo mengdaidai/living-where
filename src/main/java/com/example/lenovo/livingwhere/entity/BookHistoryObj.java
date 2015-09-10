@@ -6,7 +6,34 @@ package com.example.lenovo.livingwhere.entity;
 public class BookHistoryObj {
     int hid,size,amount,bhid,state,type,price;//分别为 房子索引，大小，交易数量，预约历史id,预约状态（0请求预约，1房主接受，2确认完成），类型（0短租，1长租），价格
     String contactPhone,pictures,description,address,start,end;//分别为  联系电话，图片地址，描述，地址，开始日期，结束日期
+    double longitude;
+    double latitude;
 
+    public double getStar() {
+        return star;
+    }
+
+    public void setStar(double star) {
+        this.star = star;
+    }
+
+    double star;
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public int getHid() {
         return hid;

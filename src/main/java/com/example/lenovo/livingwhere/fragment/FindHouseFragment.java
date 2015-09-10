@@ -1,8 +1,6 @@
 package com.example.lenovo.livingwhere.fragment;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,15 +20,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.lenovo.livingwhere.activity.HouseDetailsActivity;
-import com.example.lenovo.livingwhere.activity.OrderActivity;
-import com.example.lenovo.livingwhere.activity.SelectionConditionActivity;
 import com.example.lenovo.livingwhere.entity.DistanceSort;
 import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.net.GsonRequest;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
-import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.example.lenovo.livingwhere.view.OnRefreshListener;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.view.RefreshListView;
@@ -39,7 +34,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -206,21 +200,21 @@ public class FindHouseFragment extends Fragment implements View.OnClickListener,
         Log.w("DatePicker", "Date = " + year);
         if(DatePickertype == 0){
             inDate = String.valueOf(year);
-            if(month<10) inDate+=("0"+String.valueOf(month));
-            else inDate+=String.valueOf(month);
+            if(month+1<10) inDate+=("0"+String.valueOf(month+1));
+            else inDate+=String.valueOf(month+1);
             if(day<10) inDate+=("0"+String.valueOf(day));
             else inDate+=String.valueOf(day);
-            String text = String.valueOf(year)+"年"+String.valueOf(month)+"月"+String.valueOf(day)+"日";
+            String text = String.valueOf(year)+"年"+String.valueOf(month+1)+"月"+String.valueOf(day)+"日";
             inButton.setText(text);
             Log.e("inDate",inDate);
         }
         else if(DatePickertype == 1){
             outDate = String.valueOf(year);
-            if(month<10) outDate+=("0"+String.valueOf(month));
-            else outDate+=String.valueOf(month);
+            if(month+1<10) outDate+=("0"+String.valueOf(month+1));
+            else outDate+=String.valueOf(month+1);
             if(day<10) outDate+=("0"+String.valueOf(day));
             else outDate+=String.valueOf(day);
-            outButton.setText(year+"年"+month+"月"+day + "日");
+            outButton.setText(year+"年"+(month+1)+"月"+day + "日");
             Log.e("outDate", outDate);
             rentType = 0;
         }
@@ -267,8 +261,8 @@ public class FindHouseFragment extends Fragment implements View.OnClickListener,
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> map = new HashMap<String, String>();
-                        map.put("longitude", String.valueOf(MainActivity.longitude));
-                        map.put("latitude",String.valueOf(MainActivity.latitude));
+                        map.put("longitude", String.valueOf(MyApplication.longitude));
+                        map.put("latitude",String.valueOf(MyApplication.latitude));
                         map.put("price",price);
                         map.put("book_start",inDate);
                         map.put("book_end",outDate);

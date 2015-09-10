@@ -1,19 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.example.lenovo.livingwhere.activity.BigPictureActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/big_picture_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#01B9FF">
-        <include layout="@layout/actionbar_big_picture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:layout_marginLeft="-16dp">
+        <include layout="@layout/toolbar_back_title_delete" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -22,6 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/big_picture_toolbar"/>
+        android:layout_below="@id/toolbar"/>
 
 </RelativeLayout>

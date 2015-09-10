@@ -3,6 +3,8 @@ package com.example.lenovo.livingwhere.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.lenovo.livingwhere.fragment.ReleaseHouseFragment;
@@ -14,14 +16,23 @@ import java.io.Serializable;
 
 public class EditHouseActivity extends AppCompatActivity implements OnFragmentListener{
     ReleaseHouseFragment fragment = null;
-
+    TextView title;
+    ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_house);
-        TextView title = (TextView)findViewById(R.id.actionbar_edit_info_title);
+        title = (TextView)findViewById(R.id.toolbar_back_title_text);
         title.setText("修改住房信息");
+        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         fragment = new ReleaseHouseFragment();
         fragment.setmHouse((Houses)getIntent().getSerializableExtra("house"));
         getFragmentManager().beginTransaction()

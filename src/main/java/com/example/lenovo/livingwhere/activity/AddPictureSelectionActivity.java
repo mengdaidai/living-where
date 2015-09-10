@@ -76,8 +76,6 @@ public class AddPictureSelectionActivity extends Activity implements View.OnClic
             setResult(RESULT_OK, intent);
         }
 
-
-
         finish();
 
     }

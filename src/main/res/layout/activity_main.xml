@@ -19,10 +19,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#01B9FF">
-            <include layout="@layout/actionbar_recommend_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_marginLeft="-16dp">
+            <include layout="@layout/toolbar_head_title"/>
 
         </android.support.v7.widget.Toolbar>
 

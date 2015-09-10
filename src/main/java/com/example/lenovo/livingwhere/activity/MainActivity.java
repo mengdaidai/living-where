@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public SlideMenuAdapter slideMenuAdapter;
     public List<String> slideMenuText;
 
-    public static CurrentUserObj userObj;//当前用户对象，整个application仅此一个
     ImageLoader imageLoader;
-    public static double longitude,latitude;//当前经纬度
 
 
     @Override
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         System.out.println("onCreate");
         setContentView(R.layout.activity_main);
-        userObj = new CurrentUserObj();
         initView();
         initEvents();
         initLocation();
@@ -165,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headImageView,
                 R.drawable.pic_head_normal, R.drawable.pic_head_selected);
-        imageLoader.get(URI.HeadPic+userObj.getHeadPic(), listener,200,200);
+        imageLoader.get(URI.HeadPic+MyApplication.user.getHeadPic(), listener,200,200);
 
     }
 
@@ -333,8 +330,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
                 fragment1.initListView(location.getLatitude(), location.getLongitude());
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+                MyApplication.latitude = location.getLatitude();
+                MyApplication.longitude = location.getLongitude();
                 sb.append("\ndescribe : ");
                 sb.append("gps success");
 
@@ -350,8 +347,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mHandler.sendMessage(msg);
                 System.out.println("mHandler成功！即将initListView");
                 fragment1.initListView(location.getLatitude(), location.getLongitude());
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+                MyApplication.latitude = location.getLatitude();
+                MyApplication.longitude = location.getLongitude();
                 sb.append("\ndescribe : ");
                 sb.append("network success");
             } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
@@ -365,9 +362,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putString("locateType","offline");
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
-                fragment1.initListView(location.getLatitude(),location.getLongitude());
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+                fragment1.initListView(location.getLatitude(), location.getLongitude());
+                MyApplication.latitude = location.getLatitude();
+                MyApplication.longitude = location.getLongitude();
             } else if (location.getLocType() == BDLocation.TypeServerError) {
                 sb.append("\ndescribe : ");
                 sb.append("fu wu duan wang luo ding wei shi bai");

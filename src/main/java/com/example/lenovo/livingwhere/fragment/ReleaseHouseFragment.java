@@ -283,14 +283,14 @@ public class ReleaseHouseFragment extends Fragment {
                         formImageList.add(new FormImage(bmp,picNameModel+(i-1),"住房图"+(i-1)+".jpg","image/jpg"));
                         if(formImageList.size() == imageItem.size()-1){
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
+                            map.put("uid", String.valueOf(MyApplication.user.getUid()));
                             map.put("description", descripEdit.getText().toString());
                             map.put("contactPhone", phoneEdit.getText().toString());
                             map.put("address", addressEdit.getText().toString());
                             map.put("size", sizeEdit.getText().toString());
                             map.put("price", priceEdit.getText().toString());
-                            map.put("longitude", "117.146594");
-                            map.put("latitude", "36.674001");
+                            map.put("longitude", String.valueOf(MyApplication.longitude));
+                            map.put("latitude", String.valueOf(MyApplication.latitude));
                             map.put("type", String.valueOf(type));
                             if(mHouse!=null){
                                 map.put("hid",String.valueOf(mHouse.getHid()));
@@ -324,14 +324,14 @@ public class ReleaseHouseFragment extends Fragment {
                                 formImageList.add(new FormImage(response,picNameModel+(mi-1),"住房图"+(mi-1)+".jpg","image/jpg"));
                                 if(formImageList.size() == imageItem.size()-1){
                                         Map<String, String> map = new HashMap<String, String>();
-                                        map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
+                                        map.put("uid", String.valueOf(MyApplication.user.getUid()));
                                         map.put("description", descripEdit.getText().toString());
                                         map.put("contactPhone", phoneEdit.getText().toString());
                                         map.put("address", addressEdit.getText().toString());
                                         map.put("size", sizeEdit.getText().toString());
                                         map.put("price", priceEdit.getText().toString());
-                                        map.put("longitude", "117.146594");
-                                        map.put("latitude", "36.674001");
+                                        map.put("longitude", String.valueOf(MyApplication.longitude));
+                                        map.put("latitude", String.valueOf(MyApplication.latitude));
                                         map.put("type", String.valueOf(type));
                                         if(mHouse!=null){
                                             map.put("hid",String.valueOf(mHouse.getHid()));

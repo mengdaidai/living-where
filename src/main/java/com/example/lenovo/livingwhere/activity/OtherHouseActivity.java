@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +48,8 @@ public class OtherHouseActivity extends AppCompatActivity {
     Intent intent = null;
     int type;//0为查看房东其他房子，1为房东查看自己的房子
     int position;//当前查看的item再listview中的位置
+    ImageButton backButton;
+    TextView title;
 
 
     public int getPosition() {
@@ -61,10 +65,20 @@ public class OtherHouseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         intent = getIntent();
         type = intent.getIntExtra("type",0);
         if(type == 0){//查看房东其他房子
             setContentView(R.layout.activity_other_house);
+            title = (TextView)findViewById(R.id.toolbar_back_title_text);
+            title.setText("其他房子");
+            backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
             mListView = (RefreshListView)findViewById(R.id.other_house_listview);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -141,8 +155,17 @@ public class OtherHouseActivity extends AppCompatActivity {
                 }
             });
         }else{//房东查看自己的房子
-            if(MainActivity.userObj.getType() == 0){//该用户不是房东，需先成为房主
+            if(MyApplication.user.getType() == 0){//该用户不是房东，需先成为房主
                 setContentView(R.layout.activity_please_be_host);
+                title = (TextView)findViewById(R.id.toolbar_back_title_text);
+                title.setText("成为房主");
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
                 Button toBeHostButton = (Button)findViewById(R.id.please_be_host_button);
                 toBeHostButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -152,6 +175,8 @@ public class OtherHouseActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(String s) {
                                         Toast.makeText(OtherHouseActivity.this, s, Toast.LENGTH_SHORT).show();
+                                        if(s.equals("操作成功"))
+                                            MyApplication.user.setType(1);
                                     }
                                 }, new Response.ErrorListener() {
                             @Override
@@ -161,8 +186,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                Map<String,String> map = new HashMap<String,String>();
-                                map.put("uid",String.valueOf(MainActivity.userObj.getUid()));
-                                System.out.println("uid!!!!!!!!!!!"+MainActivity.userObj.getUid());
+                                map.put("uid", String.valueOf(MyApplication.user.getUid()));
                                 return map;
                             }
 
@@ -179,12 +203,22 @@ public class OtherHouseActivity extends AppCompatActivity {
                                         HttpHeaderParser.parseCacheHeaders(response));
                             }
                         };
+                        MyApplication.mQueue.add(toBeHostRequest);
                     }
                 });
             }
 
             else{//该用户确实为房主
                 setContentView(R.layout.activity_other_house);
+                title = (TextView)findViewById(R.id.toolbar_back_title_text);
+                title.setText("我的房子");
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
                 mListView = (RefreshListView)findViewById(R.id.other_house_listview);
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -216,8 +250,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> map = new HashMap<String, String>();
-                        map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
-                        System.out.println("uid!!!!!!!!!!" + MainActivity.userObj.getUid());
+                        map.put("uid", String.valueOf(MyApplication.user.getUid()));
                         return map;
                     }
                 };
@@ -249,7 +282,7 @@ public class OtherHouseActivity extends AppCompatActivity {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 Map<String, String> map = new HashMap<String, String>();
-                                map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
+                                map.put("uid", String.valueOf(MyApplication.user.getUid()));
 
                                 return map;
                             }

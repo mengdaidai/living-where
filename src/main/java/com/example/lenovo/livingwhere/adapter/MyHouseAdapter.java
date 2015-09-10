@@ -146,7 +146,7 @@ public class MyHouseAdapter extends BaseAdapter {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
+                            map.put("uid", String.valueOf(MyApplication.user.getUid()));
                             map.put("hid", String.valueOf(houseInfo.get(mPosition).getHid()));
                             if (houseInfo.get(mPosition).getState() == 1)
                                 map.put("state", String.valueOf(2));

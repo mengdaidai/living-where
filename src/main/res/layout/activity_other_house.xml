@@ -4,6 +4,15 @@
     tools:context="com.example.lenovo.livingwhere.activity.OtherHouseActivity"
     android:background="@drawable/my_house_background">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-16dp">
+        <include layout="@layout/toolbar_back_title" />
+
+    </android.support.v7.widget.Toolbar>
+
     <com.example.lenovo.livingwhere.view.RefreshListView
         android:id="@+id/other_house_listview"
         android:layout_width="fill_parent"

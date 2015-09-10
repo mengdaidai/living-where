@@ -4,22 +4,13 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/big_head_pic_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#01B9FF">
-        <ImageButton
-            android:id="@+id/big_head_pic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/common_arrow_back"/>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="40dp"
-            android:background="#ffffff"
-            />
-
-
+        android:layout_marginLeft="-16dp"
+        >
+        <include layout="@layout/toolbar_back_title"
+             />
     </android.support.v7.widget.Toolbar>
 
     <ImageView
@@ -27,6 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/big_head_pic_toolbar"/>
+        android:layout_below="@id/toolbar"/>
 
 </LinearLayout>

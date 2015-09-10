@@ -84,10 +84,6 @@
             android:label="@string/title_activity_edit_info" >
         </activity>
         <activity
-            android:name=".activity.SelectionConditionActivity"
-            android:label="@string/title_activity_selection_condition" >
-        </activity>
-        <activity
             android:name=".activity.OtherHouseActivity"
             android:label="@string/title_activity_other_house" >
         </activity>

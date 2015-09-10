@@ -101,13 +101,15 @@
             android:text="下架"
             android:layout_marginLeft="80dp"
             android:layout_marginRight="30dp"
-            android:background="#f27270"/>
+            android:background="#f27270"
+            android:focusable="false"/>
         <Button
             android:id="@+id/item_my_house_edit"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="修改房间信息"
-            android:background="#f27270"/>
+            android:background="#f27270"
+            android:focusable="false"/>
 
     </LinearLayout>
 

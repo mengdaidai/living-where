@@ -3,32 +3,132 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    tools:context="com.example.lenovo.livingwhere.activity.OrderActivity">
+    tools:context="com.example.lenovo.livingwhere.activity.OrderActivity"
+    android:background="@drawable/order_background">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="尚客优酒店住宿"
-        android:textSize="40dp"/>
+        android:layout_marginLeft="-16dp">
+        <include layout="@layout/toolbar_back_title" />
+
+    </android.support.v7.widget.Toolbar>
 
 
-
-
-    <Button
-        android:id="@+id/order_in_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="08-23入住"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="170dp"
+        android:background="#ffffff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="类型"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:paddingRight="70dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人住房"
+            android:textColor="#000000"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:paddingRight="70dp"
+            android:layout_marginLeft="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="舜华路1500号"
+            android:textColor="#000000"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="25dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="入住日期"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:paddingRight="41dp"
+            android:layout_marginLeft="30dp"/>
+
+        <Button
+            android:id="@+id/order_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="08-23入住"
+            android:gravity="left"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="离开日期"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:paddingRight="41dp"
+            android:layout_marginLeft="30dp"/>
+
         <Button
             android:id="@+id/order_out_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:text="08-24离开"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="left"
+            android:background="@android:color/transparent"
+            android:textColor="#000000"/>
         <ImageButton
             android:id="@+id/order_cancel_button"
             android:layout_width="wrap_content"
@@ -39,11 +139,22 @@
 
     </LinearLayout>
 
+
+
+
+
+
+
     <Button
         android:id="@+id/order_submit_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="预约"/>
+        android:text="预        约"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:textSize="20dp"
+        android:background="#44bfee"
+        android:layout_gravity="center"/>
 
 
 

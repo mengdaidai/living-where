@@ -1,201 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fadingEdge="vertical"
-    >
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/details_background">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-16dp">
+        <include layout="@layout/toolbar_back_title" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="vertical"
+        >
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/house_details_linearlayout_information"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            >
-            <TextView
-                android:id="@+id/house_details_other_houses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="查看房东其他房子"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/details_background"
+            android:layout_marginTop="-12dp">
 
+                <TextView
+                    android:id="@+id/house_details_other_houses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="查看房东其他房子"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginBottom="20dp"/>
+
+            <com.example.lenovo.livingwhere.view.HouseDetailsHorizontalScrollView
+                android:id="@+id/id_horizontalScrollView"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@android:color/transparent"
+                android:scrollbars="none"
+                android:layout_below="@id/house_details_other_houses"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                >
+
+
+                <LinearLayout
+                    android:id="@+id/id_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+                </LinearLayout>
+            </com.example.lenovo.livingwhere.view.HouseDetailsHorizontalScrollView>
+
+
+
+            <LinearLayout
+                android:id="@+id/house_details_linearlayout_baseinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/id_horizontalScrollView"
+                android:layout_marginTop="50dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/details_title_information"/>
+                <TextView
+                    android:id="@+id/house_details_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$50/天"
+                    android:textColor="#FF0000"
+                    android:textSize="30dp"
+                    android:paddingTop="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_icon_place"/>
+                    <TextView
+                        android:id="@+id/house_details_place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="地       点"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_icon_count"/>
+                    <TextView
+                        android:id="@+id/house_details_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="交易数量："
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_icon_tel"/>
+                    <TextView
+                        android:id="@+id/house_details_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="房主电话:"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_icon_introduction"/>
+                    <TextView
+                        android:id="@+id/house_details_introduction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="住房简介："
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_icon_star"/>
+                    <TextView
+                        android:id="@+id/house_details_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="星级:"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+            <Button
+                android:id="@+id/house_details_look_comment"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:text="查看评论"
+                android:layout_below="@id/house_details_linearlayout_baseinfo"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:background="#44bfee"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"/>
+            <Button
+                android:id="@+id/house_details_comment"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:text="我要评论"
+                android:layout_below="@id/house_details_look_comment"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:background="#44bfee"
+                android:layout_marginBottom="10dp"/>
+
+
+
+
+            <Button
+                android:id="@+id/house_details_order"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="我要预约"
+                android:layout_below="@id/house_details_comment"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"
+                android:background="#44bfee"
+                android:layout_marginBottom="10dp"
+                />
 
         </RelativeLayout>
+    </ScrollView>
 
-        <com.example.lenovo.livingwhere.view.HouseDetailsHorizontalScrollView
-            android:id="@+id/id_horizontalScrollView"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:background="@android:color/transparent"
-            android:scrollbars="none"
-            android:layout_below="@id/house_details_linearlayout_information"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            >
+</LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/id_gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="horizontal"
-                >
-            </LinearLayout>
-        </com.example.lenovo.livingwhere.view.HouseDetailsHorizontalScrollView>
-
-
-
-        <LinearLayout
-            android:id="@+id/house_details_linearlayout_baseinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/id_horizontalScrollView"
-            android:layout_marginTop="40dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/details_title_information"/>
-            <TextView
-                android:id="@+id/house_details_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$50/天"
-                android:textColor="#FF0000"
-                android:textSize="30dp"
-                android:paddingTop="10dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/details_icon_place"/>
-                <TextView
-                    android:id="@+id/house_details_place"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="地       点"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/details_icon_count"/>
-                <TextView
-                    android:id="@+id/house_details_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="交易数量："
-                    android:textColor="#000000"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/details_icon_tel"/>
-                <TextView
-                    android:id="@+id/house_details_tel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="房主电话:"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/details_icon_introduction"/>
-                <TextView
-                    android:id="@+id/house_details_introduction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="住房简介："
-                    android:textColor="#000000"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/details_icon_star"/>
-                <TextView
-                    android:id="@+id/house_details_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="星级:"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-
-
-
-        </LinearLayout>
-
-
-
-
-        <Button
-            android:id="@+id/house_details_look_comment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="查看评论"
-            android:layout_below="@id/house_details_linearlayout_baseinfo"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"/>
-        <Button
-            android:id="@+id/house_details_comment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="我要评论"
-            android:layout_below="@id/house_details_look_comment"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"/>
-
-
-
-
-        <Button
-            android:id="@+id/house_details_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="我要预约"
-            android:layout_below="@id/house_details_comment"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            />
-
-    </RelativeLayout>
-</ScrollView>

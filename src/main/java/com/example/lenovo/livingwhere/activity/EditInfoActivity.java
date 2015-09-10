@@ -1,10 +1,12 @@
 package com.example.lenovo.livingwhere.activity;
 
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -17,9 +19,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -33,6 +37,7 @@ import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
+import com.example.lenovo.livingwhere.view.HouseDetailsHorizontalScrollView;
 import com.google.gson.Gson;
 
 import java.io.BufferedOutputStream;
@@ -44,9 +49,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EditInfoActivity extends AppCompatActivity {
+public class EditInfoActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button uploadHeadPic,submitButton;
+    ImageButton backButton;
+    TextView title;
     EditText nickNameEdit,ageEdit,qianmingEdit;
     ImageView headPic;
     String localPath = "";//当前上传头像的本地路径
@@ -88,22 +95,26 @@ public class EditInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_info);
         gson = new Gson();
         initView();
+        initEvent();
     }
     public void initView(){
+        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+        title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        title.setText("编辑个人信息");
         uploadHeadPic = (Button)findViewById(R.id.edit_info_upload_head_pic);
         submitButton = (Button)findViewById(R.id.edit_info_submit);
         nickNameEdit = (EditText)findViewById(R.id.edit_info_nick_name);
-        nickNameEdit.setText(MainActivity.userObj.getNickname());
+        nickNameEdit.setText(MyApplication.user.getNickname());
         ageEdit = (EditText)findViewById(R.id.edit_info_age);
-        ageEdit.setText(Integer.toString(MainActivity.userObj.getAge()));
+        ageEdit.setText(Integer.toString(MyApplication.user.getAge()));
         genderSpinner = (Spinner)findViewById(R.id.edit_info_gender);
         qianmingEdit = (EditText)findViewById(R.id.edit_info_gexingqianming);
-        qianmingEdit.setText(MainActivity.userObj.getSignature());
+        qianmingEdit.setText(MyApplication.user.getSignature());
         headPic = (ImageView)findViewById(R.id.edit_info_head_pic);
         imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headPic,
                 R.drawable.my_info_btn_header, R.drawable.my_info_btn_header);
-        imageLoader.get(URI.HeadPic+MainActivity.userObj.getHeadPic(), listener,200,200);
+        imageLoader.get(URI.HeadPic+MyApplication.user.getHeadPic(), listener,200,200);
 
         //将可选内容与ArrayAdapter连接起来
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,genderString);
@@ -113,49 +124,18 @@ public class EditInfoActivity extends AppCompatActivity {
 
         //将adapter 添加到spinner中
         genderSpinner.setAdapter(adapter);
-
-        //添加事件Spinner事件监听
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gender = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         //设置默认值
         genderSpinner.setVisibility(View.VISIBLE);
 
-        headPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(EditInfoActivity.this, BigPictureActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("type", 2);
-                bundle.putInt("from",1);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 2);
-            }
-        });
+    }
 
-
-        uploadHeadPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {//开启选择图片方式弹窗
-
-                Toast.makeText(EditInfoActivity.this, "添加照片", Toast.LENGTH_SHORT).show();
-                startActivityForResult(new Intent(EditInfoActivity.this,
-                        AddPictureSelectionActivity.class), 1);
-            }
-        });
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.toolbar_back_title_back:
+                finish();
+                break;
+            case R.id.edit_info_submit:
                 myHeadPic = new ArrayList<FormImage>();
                 if(!localPath.equals("")){//说明头像已经被改变
                     Bitmap bmp = BitmapFactory.decodeFile(localPath);
@@ -164,7 +144,7 @@ public class EditInfoActivity extends AppCompatActivity {
                 }
                 //文本信息
                 Map<String, String> map = new HashMap<String, String>();
-                map.put("uid", String.valueOf(MainActivity.userObj.getUid()));
+                map.put("uid", String.valueOf(MyApplication.user.getUid()));
                 map.put("gender", String.valueOf(gender));//性别男0女1
                 map.put("age", ageEdit.getText().toString().trim());
                 map.put("signature", qianmingEdit.getText().toString());
@@ -174,7 +154,7 @@ public class EditInfoActivity extends AppCompatActivity {
                     public void onResponse(String s) {
                         Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_LONG).show();
                         System.out.println(s);
-                        MainActivity.userObj = gson.fromJson(s, CurrentUserObj.class);
+                        MyApplication.user = gson.fromJson(s, CurrentUserObj.class);
                         Intent intent = new Intent();
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("picChanged",headChanged);
@@ -188,11 +168,42 @@ public class EditInfoActivity extends AppCompatActivity {
                     }
                 });
                 MyApplication.mQueue.add(editInfoRequest);
+                break;
+            case R.id.edit_info_head_pic:
+                Intent intent = new Intent();
+                intent.setClass(EditInfoActivity.this, BigPictureActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", 2);
+                bundle.putInt("from",1);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 2);
+                break;
+            case R.id.edit_info_upload_head_pic:
+                Toast.makeText(EditInfoActivity.this, "添加照片", Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(EditInfoActivity.this,
+                        AddPictureSelectionActivity.class), 1);
+                break;
+        }
+    }
+
+
+    public void initEvent(){
+        backButton.setOnClickListener(this);
+        uploadHeadPic.setOnClickListener(this);
+        headPic.setOnClickListener(this);
+        submitButton.setOnClickListener(this);
+        //添加事件Spinner事件监听
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gender = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-
-
-
     }
 
 

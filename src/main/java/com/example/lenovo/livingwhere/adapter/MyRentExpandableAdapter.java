@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.R;
@@ -117,7 +118,8 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
             holder.childStartText= (TextView)convertView.findViewById(R.id.item_child_expandable_text_starttime);
             holder.houseImage = (ImageView)convertView.findViewById(R.id.item_child_expandable_houseImage);
             holder.compeleteButton = (Button)convertView.findViewById(R.id.item_child_expandable_button_compelete);
-            if(groupPosition == 0) holder.compeleteButton.setVisibility(View.VISIBLE);
+            if(groupPosition == 0)
+                holder.compeleteButton.setVisibility(View.VISIBLE);
             holder.compeleteButton.setTag(childPosition);
             holder.compeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -154,8 +156,14 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
 
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-        List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getHeadPic(),new TypeToken<List<String>>(){}.getType());
+        List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getHeadPic(), new TypeToken<List<String>>() {
+        }.getType());
+        if(pics!=null)
         mLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
+        //int size = childData.get(0).size();
+        //RentHistoryObj obj  = childData.get(groupPosition).get(childPosition);
+        //Houses house = childData.get(groupPosition).get(childPosition).getHouse();
+        //String address = childData.get(groupPosition).get(childPosition).getHouse().getAddress();
         holder.childLocationText.setText(childData.get(groupPosition).get(childPosition).getHouse().getAddress());
         holder.childEndText.setText(childData.get(groupPosition).get(childPosition).getStart());
         holder.childStartText.setText(childData.get(groupPosition).get(childPosition).getEnd());

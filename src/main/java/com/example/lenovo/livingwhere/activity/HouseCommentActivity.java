@@ -3,6 +3,9 @@ package com.example.lenovo.livingwhere.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,11 +29,13 @@ import java.util.Map;
  * 用于展示某房子所有评论的页面
  */
 
-public class HouseCommentActivity extends AppCompatActivity {
+public class HouseCommentActivity extends AppCompatActivity implements View.OnClickListener{
     RefreshListView mListview ;
     List<CommentObj> mListData;
     HouseCommentAdapter mAdapter;
     int hid;
+    ImageButton backButton;
+    TextView title;
 
 
 
@@ -38,6 +43,15 @@ public class HouseCommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_comment);
+        initView();
+        initEvent();
+    }
+
+
+    public void initView(){
+        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+        title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        title.setText("房屋评论");
         Intent intent = getIntent();
         hid = intent.getIntExtra("hid",0);
         mListview = (RefreshListView)findViewById(R.id.house_comment_listview);
@@ -65,6 +79,10 @@ public class HouseCommentActivity extends AppCompatActivity {
             }
         };
         MyApplication.mQueue.add(request);
+    }
+
+    public void initEvent(){
+        backButton.setOnClickListener(this);
         mListview.setOnRefreshListener(new OnRefreshListener() {
             //下拉刷新
             @Override
@@ -125,8 +143,14 @@ public class HouseCommentActivity extends AppCompatActivity {
                 MyApplication.mQueue.add(request);
             }
         });
-
-
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.toolbar_back_title_back:
+                finish();
+                break;
+        }
+    }
 }

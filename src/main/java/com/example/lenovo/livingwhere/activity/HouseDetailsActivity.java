@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.lenovo.livingwhere.R;
@@ -20,14 +21,16 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HouseDetailsActivity extends AppCompatActivity {
+public class HouseDetailsActivity extends AppCompatActivity implements View.OnClickListener{
 
     private HouseDetailsHorizontalScrollView mHorizontalScrollView;//展示房子图片的横向滚动组件
     private HorizontalScrollViewAdapter mAdapter;
-    TextView addressText,countText,phoneText,introductionText,starText,priceText,otherHouseText;
+    TextView addressText,countText,phoneText,introductionText,starText,priceText,otherHouseText,title;
     Button orderButton,commentButton,lookCommentButton;
     Houses mHouse;
     private List<String> mDatas = new ArrayList<String>();
+    ImageButton backButton;
+
 
 
     @Override
@@ -37,47 +40,19 @@ public class HouseDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mHouse = (Houses)intent.getSerializableExtra("house");
         initView();
+        initEvent();
     }
 
 
     public void initView(){
+        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
+        title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        title.setText("住房详情");
         commentButton = (Button)findViewById(R.id.house_details_comment);
-        commentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HouseDetailsActivity.this, CommentActivity.class);
-                intent.putExtra("hid", mHouse.getHid());
-                startActivity(intent);
-            }
-        });
         lookCommentButton = (Button)findViewById(R.id.house_details_look_comment);
-        lookCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HouseDetailsActivity.this, HouseCommentActivity.class);
-                intent.putExtra("hid", mHouse.getHid());
-                startActivity(intent);
-            }
-        });
         otherHouseText = (TextView)findViewById(R.id.house_details_other_houses);
         otherHouseText.setText(Html.fromHtml("<u>" + "查看房主其他房子" + "</u>"));
-        otherHouseText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HouseDetailsActivity.this, OtherHouseActivity.class);
-                intent.putExtra("hid",mHouse.getHid());
-                intent.putExtra("type",0);
-                startActivity(intent);
-            }
-        });
         orderButton = (Button)findViewById(R.id.house_details_order);
-        orderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HouseDetailsActivity.this, OrderActivity.class);
-                startActivity(intent);
-            }
-        });
         addressText = (TextView)findViewById(R.id.house_details_place);
         addressText.setText("地       点:"+mHouse.getAddress());
         countText = (TextView)findViewById(R.id.house_details_count);
@@ -94,6 +69,19 @@ public class HouseDetailsActivity extends AppCompatActivity {
         Gson gson = new Gson();
         mDatas = gson.fromJson(mHouse.getPictures(),new TypeToken<List<String>>(){}.getType());
         mAdapter = new HorizontalScrollViewAdapter(HouseDetailsActivity.this, mDatas);
+
+        //初始化
+        mHorizontalScrollView.initDatas(mAdapter);
+
+    }
+
+
+    public void initEvent(){
+        backButton.setOnClickListener(this);
+        commentButton.setOnClickListener(this);
+        lookCommentButton.setOnClickListener(this);
+        otherHouseText.setOnClickListener(this);
+        orderButton.setOnClickListener(this);
         //设置item点击事件
         mHorizontalScrollView.setOnItemClickListener(new HouseDetailsHorizontalScrollView.OnItemClickListener() {
 
@@ -104,16 +92,42 @@ public class HouseDetailsActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 2);
                 bundle.putString("url", pic);
-                bundle .putInt("from",1);
+                bundle.putInt("from", 1);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
             }
         });
-        //初始化
-        mHorizontalScrollView.initDatas(mAdapter);
-
     }
 
 
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()){
+            case R.id.toolbar_back_title_back:
+                finish();
+                break;
+            case R.id.house_details_comment:
+                intent = new Intent(HouseDetailsActivity.this, CommentActivity.class);
+                intent.putExtra("hid", mHouse.getHid());
+                startActivity(intent);
+                break;
+            case R.id.house_details_look_comment:
+                intent = new Intent(HouseDetailsActivity.this, HouseCommentActivity.class);
+                intent.putExtra("hid", mHouse.getHid());
+                startActivity(intent);
+                break;
+            case R.id.house_details_other_houses:
+                intent = new Intent(HouseDetailsActivity.this, OtherHouseActivity.class);
+                intent.putExtra("hid",mHouse.getHid());
+                intent.putExtra("type",0);
+                startActivity(intent);
+                break;
+            case R.id.house_details_order:
+                intent = new Intent(HouseDetailsActivity.this, OrderActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

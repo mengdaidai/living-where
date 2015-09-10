@@ -18,6 +18,7 @@ public class MyApplication extends Application {
 
     public static CurrentUserObj user;
     public static Bitmap smallHeadBitmap;
+    public static double longitude,latitude;
 
 
     @Override
