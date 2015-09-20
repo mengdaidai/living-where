@@ -159,7 +159,7 @@ public class ReleaseHouseFragment extends Fragment {
                 type = position;
                 TextView tv = (TextView) view;
 
-                tv.setTextSize(20.0f);    //设置大小
+                tv.setTextSize(16.0f);    //设置大小
 
                 tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL);   //设置居中
             }
