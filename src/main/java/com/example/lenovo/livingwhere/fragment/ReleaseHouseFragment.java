@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +37,7 @@ import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
 import com.example.lenovo.livingwhere.view.DialogUtil;
 import com.example.lenovo.livingwhere.view.OnFragmentListener;
+import com.example.lenovo.livingwhere.view.PopWindow;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -53,12 +53,11 @@ import java.util.Map;
 
 public class ReleaseHouseFragment extends Fragment {
     EditText phoneEdit, priceEdit, descripEdit, addressEdit;
-    Spinner typeSpinner;
     Button submit;
     GridView picGridView;
-    String[] spinnerStr = {"个人住房", "宾馆"};//房子类型
     OnFragmentListener mFragmentListener;
     Dialog dialog;
+    TextView tv_hometype;
 
     @Override
     public void onAttach(Activity activity) {
@@ -143,33 +142,40 @@ public class ReleaseHouseFragment extends Fragment {
         //sizeEdit = (EditText) view.findViewById(R.id.release_house_size);
         descripEdit = (EditText) view.findViewById(R.id.release_house_description);
         addressEdit = (EditText) view.findViewById(R.id.release_house_address);
-        typeSpinner = (Spinner) view.findViewById(R.id.release_house_type);
+        tv_hometype = (TextView) view.findViewById(R.id.release_house_type);
         submit = (Button) view.findViewById(R.id.release_house_submit);
         picGridView = (GridView) view.findViewById(R.id.release_house_grid_view);
-        //将可选内容与ArrayAdapter连接起来
-        adapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, spinnerStr);
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //将adapter 添加到spinner中
-        typeSpinner.setAdapter(adapter);
-        //添加事件Spinner事件监听
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tv_hometype.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = position;
-                TextView tv = (TextView) view;
-
-                tv.setTextSize(16.0f);    //设置大小
-
-                tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL);   //设置居中
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                PopWindow popWindow = new PopWindow(v.getContext(), tv_hometype);
+                popWindow.showPopupWindow(tv_hometype);
             }
         });
-        //设置默认值
-        typeSpinner.setVisibility(View.VISIBLE);
+        //将可选内容与ArrayAdapter连接起来
+        //  adapter = new ArrayAdapter<String>(getActivity(), R.layout.myspinner, spinnerStr);
+        //设置下拉列表的风格
+        // adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //将adapter 添加到spinner中
+        // typeSpinner.setAdapter(adapter);
+        //添加事件Spinner事件监听
+        // typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                type = position;
+//                TextView tv = (TextView) view;
+//
+//                tv.setTextSize(16.0f);    //设置大小
+//
+//                tv.setGravity(android.view.Gravity.CENTER_HORIZONTAL);   //设置居中
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//        //设置默认值
+//        typeSpinner.setVisibility(View.VISIBLE);
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.comment_plus_64px);
         imageItem = new ArrayList<HashMap<String, Object>>();
@@ -202,7 +208,11 @@ public class ReleaseHouseFragment extends Fragment {
             // sizeEdit.setText(String.valueOf(mHouse.getSize()));
             descripEdit.setText(mHouse.getDescription());
             addressEdit.setText(mHouse.getAddress());
-            typeSpinner.setSelection(mHouse.getType());
+            // typeSpinner.setSelection(mHouse.getType());
+            if (mHouse.getType() == 0)
+                tv_hometype.setText("个人住房");
+            else if (mHouse.getType() == 1)
+                tv_hometype.setText("宾馆酒店");
             Gson gson = new Gson();
             final List<String> picsUrl = gson.fromJson(mHouse.getPictures(), new TypeToken<List<String>>() {
             }.getType());
@@ -267,7 +277,7 @@ public class ReleaseHouseFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = DialogUtil.createLoadingDialog(getActivity(),"正在提交");
+                dialog = DialogUtil.createLoadingDialog(getActivity(), "正在提交");
                 dialog.show();
 
                 for (HashMap map1 : imageItem) {
@@ -299,9 +309,9 @@ public class ReleaseHouseFragment extends Fragment {
                                 @Override
                                 public void onResponse(String response) {
                                     dialog.cancel();
-                                    if(response.equals("操作成功")||response.equals("无法访问"))
-                                        Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
-                                    else{
+                                    if (response.equals("操作成功") || response.equals("无法访问"))
+                                        Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
+                                    else {
                                         Gson gson = new Gson();
                                         Houses house = gson.fromJson(response, Houses.class);
                                         i = 1;
@@ -320,6 +330,7 @@ public class ReleaseHouseFragment extends Fragment {
                     } else {//图片来自网络
                         ImageRequest request = new ImageRequest(URI.HousesPic + (String) map1.get("url"), new Response.Listener<Bitmap>() {
                             int mi = i;
+
                             @Override
                             public void onResponse(Bitmap response) {
                                 formImageList.add(new FormImage(response, picNameModel + (mi - 1), "住房图" + (mi - 1) + ".jpg", "image/jpg"));
@@ -340,9 +351,9 @@ public class ReleaseHouseFragment extends Fragment {
                                     PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList, map, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
-                                            if(response.equals("操作成功")||response.equals("无法访问"))
+                                            if (response.equals("操作成功") || response.equals("无法访问"))
                                                 Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
-                                            else{
+                                            else {
                                                 Gson gson = new Gson();
                                                 Houses house = gson.fromJson(response, Houses.class);
                                                 i = 1;

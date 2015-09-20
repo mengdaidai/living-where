@@ -28,24 +28,25 @@ public class AndTools {
      */
     public static int dp2px(Context context, float dpValue) {
 
-        if(null != context && context.getResources() != null && context.getResources().getDisplayMetrics() != null) {
+        if (null != context && context.getResources() != null && context.getResources().getDisplayMetrics() != null) {
             final float scale = context.getResources().getDisplayMetrics().density;
             return (int) (dpValue * scale + 0.5f);
         }
 
-        return (int)dpValue;
+        return (int) dpValue;
     }
+
     /**
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
     public static int px2dip(Context context, float pxValue) {
 
-        if(null != context && context.getResources() != null && context.getResources().getDisplayMetrics() != null) {
+        if (null != context && context.getResources() != null && context.getResources().getDisplayMetrics() != null) {
             final float scale = context.getResources().getDisplayMetrics().density;
             return (int) (pxValue / scale + 0.5f);
         }
 
-        return (int)pxValue;
+        return (int) pxValue;
     }
 
     /**
@@ -54,7 +55,7 @@ public class AndTools {
      * @param context
      * @return
      */
-    public static boolean isNetworkAvailable(final Context context){
+    public static boolean isNetworkAvailable(final Context context) {
         boolean netStatus = false;
 
         ConnectivityManager connectManager = (ConnectivityManager) context
@@ -78,31 +79,34 @@ public class AndTools {
 
     /**
      * 绘制导航标签
+     *
      * @param context
-     * @param total  总的位置信息
-     * @param currentPosition  当前位置
-     * @param basicImageId  基本的图形信息
+     * @param total           总的位置信息
+     * @param currentPosition 当前位置
+     * @param basicImageId    基本的图形信息
      * @param currentImageId  当前位置所要显示的图形信息
      * @return
      */
     public static Bitmap drawNavigator(Context context, int total,
-                                       int currentPosition, int basicImageId, int currentImageId){
+                                       int currentPosition, int basicImageId, int currentImageId) {
         return drawNavigator(context, total,
                 currentPosition, basicImageId, currentImageId, 6);
     }
+
     /**
      * 绘制导航标签
+     *
      * @param context
-     * @param total  总的位置信息
-     * @param currentPosition  当前位置
-     * @param basicImageId  基本的图形信息
+     * @param total           总的位置信息
+     * @param currentPosition 当前位置
+     * @param basicImageId    基本的图形信息
      * @param currentImageId  当前位置所要显示的图形信息
-     * @param marginSpace 导航条圆点中间的间距
+     * @param marginSpace     导航条圆点中间的间距
      * @return
      */
     public static Bitmap drawNavigator(Context context, int total, int currentPosition,
-                                       int basicImageId, int currentImageId, int marginSpace){
-        if(total <= 0){
+                                       int basicImageId, int currentImageId, int marginSpace) {
+        if (total <= 0) {
             total = 1;
         }
         int current = currentPosition;
@@ -110,44 +114,45 @@ public class AndTools {
         int imageWidth = drawable.getIntrinsicWidth();
         int imageHeight = drawable.getIntrinsicHeight();
         //生成最终要绘制的bitmap，长度是总的标签数乘以图片本身的宽度
-        Bitmap navigatorBitmap = Bitmap.createBitmap((imageWidth+6)*total, imageHeight, Bitmap.Config.ARGB_8888);
+        Bitmap navigatorBitmap = Bitmap.createBitmap((imageWidth + 6) * total, imageHeight, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(navigatorBitmap);
         //往画板上填充基本的图像内容
         Bitmap basic = BitmapFactory.decodeResource(context.getResources(), basicImageId);
-        for(int i=0; i < total; i++){
+        for (int i = 0; i < total; i++) {
             canvas.drawBitmap(basic, (marginSpace + imageWidth) * i, 0, null);
         }
-        drawable.setBounds((imageWidth+marginSpace)*(current - 1), 0, (imageWidth + marginSpace) * current - marginSpace, imageHeight);
+        drawable.setBounds((imageWidth + marginSpace) * (current - 1), 0, (imageWidth + marginSpace) * current - marginSpace, imageHeight);
         drawable.draw(canvas);
         return navigatorBitmap;
     }
 
     /**
      * 打开图片剪裁页面
+     *
      * @param context
-     * @param imageUri  图片剪裁的原图
+     * @param imageUri              图片剪裁的原图
      * @param defaultSizeWithSource 剪裁区域的默认大小是否与原图保持一致  true 保持一致
      * @param requestCode
-     * @param cropImageFileName  图片剪裁成功后的缓存文件名称，如果不为空，则获取剪裁后的文件方式为：
-     * <pre>String fileName = extras.getString("file-data");
-    File file = this.getFileStreamPath(fileName);
-    Uri uri = Uri.fromFile(file);</pre>
-     * 如果为空，则获取剪裁后的图片方式为：
-     * <pre>Bundle extras = data.getExtras();
-    if (extras != null) {
-    Bitmap photo = extras.getParcelable("data");
-    }</pre>
-    使用的时候，建议按照文件路径（也就是传入有效的cropImageFileName）值使用，原因在于：intent在传递值的时候，对于bitmap这样的值有40kb的大小限制
+     * @param cropImageFileName     图片剪裁成功后的缓存文件名称，如果不为空，则获取剪裁后的文件方式为：
+     *                              <pre>String fileName = extras.getString("file-data");
+     *                                                           File file = this.getFileStreamPath(fileName);
+     *                                                           Uri uri = Uri.fromFile(file);</pre>
+     *                              如果为空，则获取剪裁后的图片方式为：
+     *                              <pre>Bundle extras = data.getExtras();
+     *                                                           if (extras != null) {
+     *                                                           Bitmap photo = extras.getParcelable("data");
+     *                                                           }</pre>
+     *                              使用的时候，建议按照文件路径（也就是传入有效的cropImageFileName）值使用，原因在于：intent在传递值的时候，对于bitmap这样的值有40kb的大小限制
      */
     public static void startCropImageActivityForResult(Activity context, Uri imageUri, boolean defaultSizeWithSource,
-                                                       int requestCode, String cropImageFileName){
+                                                       int requestCode, String cropImageFileName) {
         startCropImageActivityForResult(context, imageUri, defaultSizeWithSource, requestCode, cropImageFileName, 100, 100);
     }
 
     public static void startCropImageActivityForResult(Activity context, Uri imageUri, boolean defaultSizeWithSource,
-                                                       int requestCode, String cropImageFileName,int aspectX,int aspectY){
-        try{
+                                                       int requestCode, String cropImageFileName, int aspectX, int aspectY) {
+        try {
             Intent intent = new Intent();
             //this will open all images
             intent.setDataAndType(imageUri, "image/*");
@@ -156,14 +161,14 @@ public class AndTools {
             intent.putExtra("crop", "true");
             // true to return a Bitmap, false to directly save the cropped iamge
             intent.putExtra("return-data", true);
-            if(defaultSizeWithSource){
+            if (defaultSizeWithSource) {
                 intent.putExtra("defaultCropRectangleSize", "same-with-same-image");
             }
-            if(cropImageFileName != null){
+            if (cropImageFileName != null) {
                 intent.putExtra("return-data-file-name", cropImageFileName);
             }
             context.startActivityForResult(intent, requestCode);
-        }catch(Throwable tr){
+        } catch (Throwable tr) {
 
         }
     }
@@ -174,18 +179,18 @@ public class AndTools {
     }
 
     public static void showToast(Context context, String content) {
-        if(!TextUtils.isEmpty(content)) {
+        if (!TextUtils.isEmpty(content)) {
             Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
         }
     }
 
-    public static String getImsi(Context context){
+    public static String getImsi(Context context) {
         TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String imsi = mTelephonyMgr.getSubscriberId();
         return imsi;
     }
 
-    public static String getImei(Context context){
+    public static String getImei(Context context) {
         TelephonyManager mTelephonyMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String imei = mTelephonyMgr.getDeviceId();
         return imei;
@@ -207,7 +212,20 @@ public class AndTools {
 //    }
 
     /**
+     *copy
+     */
+//    private void getCopy(String text) {
+//        ClipboardManager clipboardManager = (ClipboardManager) (context
+//                .getSystemService(Context.CLIPBOARD_SERVICE));
+//        clipboardManager.setPrimaryClip(ClipData.newPlainText(null, text));
+//        if (clipboardManager.hasPrimaryClip()) {
+//            clipboardManager.getPrimaryClip().getItemAt(0).getText();
+//        }
+//    }
+
+    /**
      * 图片翻转
+     *
      * @param bitmap
      * @param orientation
      * @return

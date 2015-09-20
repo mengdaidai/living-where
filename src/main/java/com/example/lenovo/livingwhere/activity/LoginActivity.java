@@ -157,6 +157,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         if ("登陆成功".equals(user.getMessage())) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            dialog.dismiss();
                             LoginActivity.this.finish();
                         }
                     }
