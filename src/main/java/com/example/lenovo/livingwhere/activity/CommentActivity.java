@@ -70,11 +70,11 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void initView() {
-        backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
-        title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        backButton = (ImageButton) findViewById(R.id.toolbar_back_title_back);
+        title = (TextView) findViewById(R.id.toolbar_back_title_text);
         title.setText("编辑评论");
         Intent intent = getIntent();
-        hid = intent.getIntExtra("hid",0);
+        hid = intent.getIntExtra("hid", 0);
         submitButton = (Button) findViewById(R.id.comment_submit);
         commentEdit = (EditText) findViewById(R.id.comment_edittext);
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.comment_plus_64px);
@@ -103,11 +103,10 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         gridView.setAdapter(simpleAdapter);
 
 
-
     }
 
 
-    public void initEvent(){
+    public void initEvent() {
         backButton.setOnClickListener(this);
         submitButton.setOnClickListener(this);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,25 +136,24 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("requestCode"+requestCode);
+        System.out.println("requestCode" + requestCode);
         switch (requestCode) {
             case 1://选择照片后返回
-                if(data.getBooleanExtra("cancel",false))//我也忘了这句干啥的= =
+                if (data.getBooleanExtra("cancel", false))//我也忘了这句干啥的= =
                     return;
                 Uri mImageCaptureUri = data.getData();
                 //返回的Uri不为空时，那么图片信息数据都会在Uri中获得。如果为空，那么我们就进行下面的方式获取
                 if (mImageCaptureUri != null) {
-                    localPath = AfterPicSelection.getPath(this,mImageCaptureUri);
+                    localPath = AfterPicSelection.getPath(this, mImageCaptureUri);
                     new UpdateViewTask().execute(localPath);
-                }else{
+                } else {
                     localPath = data.getStringExtra("localPath");
                     new UpdateViewTask().execute(localPath);
                 }
                 break;
             case 2://查看大图后返回
-                if(data!=null) {
+                if (data != null) {
                     boolean delete = data.getBooleanExtra("delete", false);
                     Log.e("delete", "" + delete);
                     if (delete) {
@@ -175,34 +173,34 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.comment_submit:
                 List<FormImage> formImageList = new ArrayList<FormImage>();
                 int i = 1;
                 for (HashMap map : imageItem) {
-                    if(i == 1) {
+                    if (i == 1) {
                         i++;
                         continue;
 
                     }
 
-                    Log.e("submit","before decode");
+                    Log.e("submit", "before decode");
                     Log.e("path", (String) map.get("localPath"));
 
                     Bitmap bmp = BitmapFactory.decodeFile((String) map.get("localPath"));
                     Log.e("submit", "after decode");
-                    formImageList.add(new FormImage(bmp,"pic"+(i-1),"评论图"+(i-1)+".jpg","image/jpg"));
+                    formImageList.add(new FormImage(bmp, "pic" + (i - 1), "评论图" + (i - 1) + ".jpg", "image/jpg"));
                     i++;
                 }
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("uid", String.valueOf(MyApplication.user.getUid()));
                 map.put("hid", String.valueOf(hid));
                 map.put("message", commentEdit.getText().toString());
-                PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList,map, new Response.Listener<String>() {
+                PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList, map, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(CommentActivity.this,response,Toast.LENGTH_LONG).show();
+                        Toast.makeText(CommentActivity.this, response, Toast.LENGTH_LONG).show();
                         System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
@@ -221,7 +219,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private class UpdateViewTask extends AsyncTask<String,String,Bitmap> {
+    private class UpdateViewTask extends AsyncTask<String, String, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -255,7 +253,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             simpleAdapter.notifyDataSetChanged();
         }
     }
-
 
 
 }

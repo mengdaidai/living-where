@@ -9,15 +9,15 @@ import java.io.ByteArrayOutputStream;
  */
 public class FormImage {
     //��������
-    private String mName ;
+    private String mName;
     //�ļ���
-    private String mFileName ;
+    private String mFileName;
     //�ļ��� mime����Ҫ����ĵ���ѯ
-    private String mMime ;
+    private String mMime;
 
-    private Bitmap mBitmap ;
+    private Bitmap mBitmap;
 
-    public FormImage(Bitmap mBitmap,String mName,String mFileName,String mMime) {
+    public FormImage(Bitmap mBitmap, String mName, String mFileName, String mMime) {
         this.mBitmap = mBitmap;
         this.mName = mName;
         this.mFileName = mFileName;
@@ -25,19 +25,21 @@ public class FormImage {
     }
 
     public String getName() {
-       return mName;
+        return mName;
 
     }
 
     public String getFileName() {
         return mFileName;
     }
+
     //��ͼƬ���ж�����ת��
     public byte[] getValue() {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream() ;
-        mBitmap.compress(Bitmap.CompressFormat.JPEG,100,bos) ;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
         return bos.toByteArray();
     }
+
     public String getMime() {
         return mMime;
     }
