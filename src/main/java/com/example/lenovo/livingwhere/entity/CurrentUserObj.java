@@ -4,9 +4,9 @@ package com.example.lenovo.livingwhere.entity;
  * 当前用户对象
  */
 public class CurrentUserObj {
-    String signature = "小公举";
-    String nickname = "戴戴";
-    String headPic = "3.jpg";
+    String signature;
+    String nickname;
+    String headPic;
     String phoneNum;
     String password;
     String message;
