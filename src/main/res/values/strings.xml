@@ -24,5 +24,6 @@
     <string name="waitingDialog">请稍后。。。</string>
     <string name="title_activity_house_details">HouseDetailsActivity</string>
     <string name="title_activity_rating">RatingActivity</string>
+    <string name="to_exit">再按一次返回键退出</string>
 
 </resources>

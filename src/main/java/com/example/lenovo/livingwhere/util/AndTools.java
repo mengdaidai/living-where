@@ -190,6 +190,21 @@ public class AndTools {
         String imei = mTelephonyMgr.getDeviceId();
         return imei;
     }
+//    /**
+//     * 双击退出函数
+//     */
+//    private long exitTime = 0;
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (System.currentTimeMillis() - exitTime > 2000) {
+//            Toast.makeText(this, R.string.to_exit, Toast.LENGTH_SHORT).show();
+//            exitTime = System.currentTimeMillis();
+//        } else {
+//            this.finish();
+//        }
+//        // super.onBackPressed();
+//    }
 
     /**
      * 图片翻转

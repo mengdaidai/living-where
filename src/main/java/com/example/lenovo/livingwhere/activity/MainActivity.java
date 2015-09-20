@@ -20,33 +20,30 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-import com.example.lenovo.livingwhere.entity.Houses;
-import com.example.lenovo.livingwhere.util.BitmapCache;
-import com.example.lenovo.livingwhere.util.MyApplication;
-import com.example.lenovo.livingwhere.util.URI;
-import com.example.lenovo.livingwhere.view.CircleImageView;
-import com.example.lenovo.livingwhere.R;
-import com.example.lenovo.livingwhere.fragment.FindHouseFragment;
-import com.example.lenovo.livingwhere.fragment.RecommendMainFragment;
-import com.example.lenovo.livingwhere.fragment.ReleaseHouseFragment;
-import com.example.lenovo.livingwhere.adapter.SlideMenuAdapter;
-import com.example.lenovo.livingwhere.entity.CurrentUserObj;
-import com.example.lenovo.livingwhere.view.OnFragmentListener;
-import com.google.gson.Gson;
-import com.nineoldandroids.view.ViewHelper;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.example.lenovo.livingwhere.R;
+import com.example.lenovo.livingwhere.adapter.SlideMenuAdapter;
+import com.example.lenovo.livingwhere.entity.Houses;
+import com.example.lenovo.livingwhere.fragment.FindHouseFragment;
+import com.example.lenovo.livingwhere.fragment.RecommendMainFragment;
+import com.example.lenovo.livingwhere.fragment.ReleaseHouseFragment;
+import com.example.lenovo.livingwhere.util.BitmapCache;
+import com.example.lenovo.livingwhere.util.MyApplication;
+import com.example.lenovo.livingwhere.util.URI;
+import com.example.lenovo.livingwhere.view.CircleImageView;
+import com.example.lenovo.livingwhere.view.OnFragmentListener;
+import com.google.gson.Gson;
+import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,OnFragmentListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, OnFragmentListener {
 
     private ImageButton[] mainTabs;
     private int index;//点击底部按钮的index
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode){
+        switch (requestCode) {
             case 1://查看个人信息返回
                 headImageView.setImageBitmap(MyApplication.smallHeadBitmap);
                 break;
@@ -96,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        headImageView = (CircleImageView)findViewById(R.id.actionbar_recommend_main_head);
-        locationButton = (Button)findViewById(R.id.actionbar_location);
+        headImageView = (CircleImageView) findViewById(R.id.actionbar_recommend_main_head);
+        locationButton = (Button) findViewById(R.id.actionbar_location);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
                 Gravity.RIGHT);
@@ -128,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .hide(fragments[1]).hide(fragments[2])
                 .show(fragments[0]).commit();
         //侧滑栏相关
-        slideMenuListView = (ListView)findViewById(R.id.left_menu);
+        slideMenuListView = (ListView) findViewById(R.id.left_menu);
         slideMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case 3://我的出租房
                         Intent intent = new Intent(MainActivity.this, OtherHouseActivity.class);
-                        intent.putExtra("type",1);
+                        intent.putExtra("type", 1);
                         startActivity(intent);
                 }
 
@@ -155,14 +152,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         slideMenuText.add("我的预约历史");
         slideMenuText.add("我的出租房订单");
         slideMenuText.add("我的出租房");
-        slideMenuAdapter = new SlideMenuAdapter(MainActivity.this,slideMenuText);
+        slideMenuAdapter = new SlideMenuAdapter(MainActivity.this, slideMenuText);
         slideMenuListView.setAdapter(slideMenuAdapter);
 
 
-        imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
+        imageLoader = new ImageLoader(MyApplication.mQueue, new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headImageView,
                 R.drawable.pic_head_normal, R.drawable.pic_head_selected);
-        imageLoader.get(URI.HeadPic+MyApplication.user.getHeadPic(), listener,200,200);
+        imageLoader.get(URI.HeadPic + MyApplication.user.getHeadPic(), listener, 200, 200);
 
     }
 
@@ -212,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     //底部三个按钮切换页面
     @Override
     public void onClick(View v) {
@@ -250,26 +246,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-     Handler mHandler = new Handler(){
-        public void handleMessage(Message msg)
-        {
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Gson gson = new Gson();
 
-            switch(msg.what)
-            {
+            switch (msg.what) {
                 case 0://更新定位
                     Bundle bundle = msg.getData();
                     String locateType = bundle.getString("locateType");
                     System.out.println(locateType);
-                    if(locateType.equals("gps")||locateType.equals("network"))
+                    if (locateType.equals("gps") || locateType.equals("network"))
                         locationButton.setText(bundle.getString("location"));
                     else if (locateType.equals("offline"))
-                        Toast.makeText(MainActivity.this,"离线定位成功",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "离线定位成功", Toast.LENGTH_LONG).show();
                     else
-                        Toast.makeText(MainActivity.this,"定位失败，请检查网络或稍后再试",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "定位失败，请检查网络或稍后再试", Toast.LENGTH_LONG).show();
                     break;
-
 
 
             }
@@ -279,9 +272,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     //用于刚进入程序时定位
-    private void initLocation(){
+    private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
@@ -305,6 +298,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * 双击退出函数
+     */
+    private long exitTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            Toast.makeText(this, R.string.to_exit, Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            this.finish();
+        }
+        // super.onBackPressed();
+    }
 
     //百度地图定位
     public class MyLocationListener implements BDLocationListener {
@@ -325,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Message msg = new Message();
                 msg.what = 0;
                 Bundle bundle = new Bundle();
-                bundle.putString("location",location.getAddrStr());
+                bundle.putString("location", location.getAddrStr());
                 bundle.putString("locateType", "gps");
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
@@ -342,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msg.what = 0;
                 Bundle bundle = new Bundle();
                 bundle.putString("location", location.getAddrStr());
-                bundle.putString("locateType","network");
+                bundle.putString("locateType", "network");
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
                 System.out.println("mHandler成功！即将initListView");
@@ -359,7 +367,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Message msg = new Message();
                 msg.what = 0;
                 Bundle bundle = new Bundle();
-                bundle.putString("locateType","offline");
+                bundle.putString("locateType", "offline");
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
                 fragment1.initListView(location.getLatitude(), location.getLongitude());
@@ -396,14 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("BaiduLocationApiDem", sb.toString());
         }
     }
-
-
-
-
-
-
-
-
 
 
 }
