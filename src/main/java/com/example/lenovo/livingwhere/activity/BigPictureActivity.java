@@ -67,7 +67,7 @@ public class BigPictureActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case 2://有url,不可以删除的大图（房子详情、头像）
+            case 2://有url,不可以删除的大图（房子详情、头像、评论）
                 setContentView(R.layout.activity_big_head_pic);
                 url = (String)bundle.get("url");
                 backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
@@ -83,8 +83,10 @@ public class BigPictureActivity extends AppCompatActivity {
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 if(bundle.getInt("from")==1)//代表房子相关
                     imageLoader.get(URI.HousesPic+url,listener);
-                else//代表头像相关
+                else if(bundle.getInt("from")==2)//代表头像相关
                     imageLoader.get(URI.HeadPic+url,listener);
+                else
+                    imageLoader.get(URI.CommentsPic+url,listener);
                 break;
             case 3://有url,可以删除的大图（修改房屋信息）
                 setContentView(R.layout.activity_big_picture);

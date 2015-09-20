@@ -11,25 +11,32 @@
 
     <Button
         android:id="@+id/add_pic_selection_from_local"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="从本地相册选择"
         android:background="#4bc0ec"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        />
     <Button
         android:id="@+id/add_pic_selection_take"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="开启照相机"
         android:background="#4bc0ec"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"/>
     <Button
         android:id="@+id/add_pic_selection_cancel"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="取消"
         android:background="#4bc0ec"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"/>
 
 
 </LinearLayout>

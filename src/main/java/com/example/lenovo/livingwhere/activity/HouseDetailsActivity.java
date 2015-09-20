@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -54,17 +55,17 @@ public class HouseDetailsActivity extends AppCompatActivity implements View.OnCl
         otherHouseText.setText(Html.fromHtml("<u>" + "查看房主其他房子" + "</u>"));
         orderButton = (Button)findViewById(R.id.house_details_order);
         addressText = (TextView)findViewById(R.id.house_details_place);
-        addressText.setText("地       点:"+mHouse.getAddress());
+        addressText.setText(addressText.getText()+mHouse.getAddress());
         countText = (TextView)findViewById(R.id.house_details_count);
-        countText.setText("交易数量："+String.valueOf(mHouse.getAmount()));
+        countText.setText(countText.getText()+String.valueOf(mHouse.getAmount()));
         phoneText = (TextView)findViewById(R.id.house_details_tel);
-        phoneText.setText("房主电话:"+mHouse.getContactPhone());
+        phoneText.setText(Html.fromHtml("<u>" + mHouse.getContactPhone() + "</u>"));
         introductionText = (TextView)findViewById(R.id.house_details_introduction);
-        introductionText.setText("住房简介:\n"+mHouse.getDescription());
+        introductionText.setText(mHouse.getDescription());
         starText = (TextView)findViewById(R.id.house_details_star);
-        starText.setText("星       级:"+String.valueOf(mHouse.getStar()));
+        starText.setText(starText.getText()+String.valueOf(mHouse.getStar()));
         priceText = (TextView)findViewById(R.id.house_details_price);
-        priceText.setText("$"+String.valueOf(mHouse.getPrice())+"/天");
+        priceText.setText("￥"+String.valueOf(mHouse.getPrice())+"/天");
         mHorizontalScrollView = (HouseDetailsHorizontalScrollView) findViewById(R.id.id_horizontalScrollView);
         Gson gson = new Gson();
         mDatas = gson.fromJson(mHouse.getPictures(),new TypeToken<List<String>>(){}.getType());
@@ -82,6 +83,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements View.OnCl
         lookCommentButton.setOnClickListener(this);
         otherHouseText.setOnClickListener(this);
         orderButton.setOnClickListener(this);
+        phoneText.setOnClickListener(this);
         //设置item点击事件
         mHorizontalScrollView.setOnItemClickListener(new HouseDetailsHorizontalScrollView.OnItemClickListener() {
 
@@ -127,6 +129,12 @@ public class HouseDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.house_details_order:
                 intent = new Intent(HouseDetailsActivity.this, OrderActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.house_details_tel:
+                Intent phoneIntent = new Intent(
+                        "android.intent.action.CALL", Uri.parse("tel:"
+                        + mHouse.getContactPhone()));
+                startActivity(phoneIntent);
                 break;
         }
     }

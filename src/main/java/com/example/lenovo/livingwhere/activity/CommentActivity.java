@@ -1,5 +1,6 @@
 package com.example.lenovo.livingwhere.activity;
 
+import android.app.Dialog;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
 import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
+import com.example.lenovo.livingwhere.view.DialogUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -60,6 +62,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     String localPath;
     ImageButton backButton;
     TextView title;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                                         String textRepresentation) {
                 // TODO Auto-generated method stub
                 if (view instanceof ImageView && data instanceof Bitmap) {
-                    ImageView i = (ImageView) view;
-                    i.setImageBitmap((Bitmap) data);
+                    ImageView v = (ImageView) view;
+                    v.setImageBitmap((Bitmap) data);
                     return true;
                 }
                 return false;
@@ -175,6 +178,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.comment_submit:
+                dialog = DialogUtil.createLoadingDialog(this,"正在提交");
+                dialog.show();
                 List<FormImage> formImageList = new ArrayList<FormImage>();
                 int i = 1;
                 for (HashMap map : imageItem) {
@@ -199,8 +204,9 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 PostUploadRequest uploadRequest = new PostUploadRequest(URI.AddCommentsAddr, formImageList, map, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        dialog.cancel();
+                        Toast.makeText(CommentActivity.this,response,Toast.LENGTH_LONG).show();
 
-                        Toast.makeText(CommentActivity.this, response, Toast.LENGTH_LONG).show();
                         System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
@@ -242,8 +248,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                                             String textRepresentation) {
                     // TODO Auto-generated method stub
                     if (view instanceof ImageView && data instanceof Bitmap) {
-                        ImageView i = (ImageView) view;
-                        i.setImageBitmap((Bitmap) data);
+                        ImageView v = (ImageView) view;
+                        v.setImageBitmap((Bitmap) data);
                         return true;
                     }
                     return false;

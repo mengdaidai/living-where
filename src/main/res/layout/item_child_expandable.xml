@@ -114,11 +114,11 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/item_child_expandable_button_compelete"
                 android:text="完成"
                 android:background="#f27270"
-
+                android:visibility="gone"
                 android:focusable="false"
                 />
 

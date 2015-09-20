@@ -9,12 +9,14 @@
         android:id="@+id/slide_menu_item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/recommend_icon_count"/>
+        android:src="@drawable/recommend_icon_count"
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/slide_menu_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         />
 
 </LinearLayout>

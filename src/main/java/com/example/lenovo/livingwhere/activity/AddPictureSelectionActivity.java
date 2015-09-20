@@ -54,6 +54,9 @@ public class AddPictureSelectionActivity extends Activity implements View.OnClic
     // 重写onTouchEvent点击屏幕关闭弹窗
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Intent intent = new Intent();
+        intent.putExtra("cancel",true);
+        setResult(RESULT_OK,intent);
         finish();
         return true;
     }
@@ -87,7 +90,7 @@ public class AddPictureSelectionActivity extends Activity implements View.OnClic
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     systemTime = System.currentTimeMillis();
                     File dir=new File(Environment.getExternalStorageDirectory() + "/LivingWherePic/"+systemTime + ".jpg");
-                    if(!dir.getParentFile().exists())dir.getParentFile().createNewFile();
+                    if(!dir.getParentFile().exists())dir.getParentFile().mkdirs();
                     if(!dir.exists()) dir.createNewFile();
                     Uri u= Uri.fromFile(dir);
                     intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);

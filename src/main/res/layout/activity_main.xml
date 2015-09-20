@@ -6,7 +6,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:id="@+id/drawer_layout"
-    android:background="@color/seagreen"
+    android:background="#ffffff"
     >
 
 
@@ -90,6 +90,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:tag="LEFT"
-        tools:layout="@layout/fragment_left_menu" />
+        tools:layout="@layout/fragment_left_menu"
+        android:paddingTop="60dp"/>
 
 </android.support.v4.widget.DrawerLayout>

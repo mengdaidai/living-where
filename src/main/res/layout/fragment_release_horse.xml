@@ -22,7 +22,6 @@
             android:text="联系电话"
             android:textColor="@color/color_black"
             android:textSize="18sp" />
-
         <EditText
             android:id="@+id/release_house_phone"
             android:layout_width="match_parent"
@@ -32,6 +31,7 @@
             android:textColor="@color/color_black" />
 
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/layout_price"
@@ -50,6 +50,7 @@
             android:text="价格"
             android:textColor="@color/color_black"
             android:textSize="18sp" />
+
 
         <EditText
             android:id="@+id/release_house_price"
