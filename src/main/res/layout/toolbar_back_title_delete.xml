@@ -8,12 +8,13 @@
     <ImageButton
         android:id="@+id/toolbar_back_title_delete_back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:src="@drawable/common_arrow_back"
         android:background="@android:color/transparent"
-        android:layout_marginRight="@dimen/toolbar_head_margin_right"
-        android:layout_marginLeft="@dimen/toolbar_head_margin_left"
+        android:paddingRight="@dimen/toolbar_head_margin_right"
+        android:paddingLeft="@dimen/toolbar_head_margin_left"
         android:layout_centerVertical="true"
+
         />
     <View
         android:layout_width="@dimen/view_width"

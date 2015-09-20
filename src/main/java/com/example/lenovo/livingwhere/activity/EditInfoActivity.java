@@ -174,7 +174,7 @@ public class EditInfoActivity extends AppCompatActivity implements View.OnClickL
                 intent.setClass(EditInfoActivity.this, BigPictureActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 2);
-                bundle.putInt("from",1);
+                bundle.putInt("from",2);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 2);
                 break;

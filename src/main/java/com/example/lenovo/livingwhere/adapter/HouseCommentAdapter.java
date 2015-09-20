@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.example.lenovo.livingwhere.activity.BigPictureActivity;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.CommentObj;
 import com.example.lenovo.livingwhere.activity.MainActivity;
@@ -77,6 +79,7 @@ public class HouseCommentAdapter extends BaseAdapter {
             holder.text_message = (TextView) convertView.findViewById(R.id.house_comment_message);
             holder.text_nickname = (TextView) convertView.findViewById(R.id.house_comment_nickname);
             holder.image_head = (ImageView)convertView.findViewById(R.id.house_comment_pic_head);
+
             convertView.setTag(holder);
         } else {
             holder = (HouseCommentViewHolder) convertView.getTag();
@@ -87,12 +90,23 @@ public class HouseCommentAdapter extends BaseAdapter {
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.image_head,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
         imageLoader.get(URI.HeadPic+info.getHeadPic(),listener,200,200);
-        List<String> pics = gson.fromJson(info.getPictures(),new TypeToken<List<String>>(){}.getType());
+        final List<String> pics = gson.fromJson(info.getPictures(),new TypeToken<List<String>>(){}.getType());
         for(int i = 0;i<pics.size();i++){
             ImageLoader.ImageListener mListener = ImageLoader.getImageListener(holder.commentPics[i],
                     R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
             imageLoader.get(URI.CommentsPic+pics.get(i),mListener,200,200);
             holder.commentPics[i].setVisibility(View.VISIBLE);
+            holder.commentPics[i].setTag(i);
+            holder.commentPics[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, BigPictureActivity.class);
+                    intent.putExtra("type", 2);
+                    intent.putExtra("url",pics.get((int)v.getTag()) );
+                    intent.putExtra("from",3);
+                    context.startActivity(intent);
+                }
+            });
         }
         //这里数据有些差错，完了再改
         holder.text_message.setText(info.getMessage());

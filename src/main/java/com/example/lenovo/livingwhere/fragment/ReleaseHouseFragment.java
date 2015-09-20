@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.example.lenovo.livingwhere.entity.Houses;
 import com.example.lenovo.livingwhere.activity.MainActivity;
 import com.example.lenovo.livingwhere.util.MyApplication;
 import com.example.lenovo.livingwhere.util.URI;
+import com.example.lenovo.livingwhere.view.DialogUtil;
 import com.example.lenovo.livingwhere.view.OnFragmentListener;
 import com.example.lenovo.livingwhere.net.PostUploadRequest;
 import com.example.lenovo.livingwhere.R;
@@ -64,6 +66,7 @@ public class ReleaseHouseFragment extends Fragment {
     GridView picGridView;
     String[] spinnerStr = {"个人住房","宾馆"};//房子类型
     OnFragmentListener mFragmentListener;
+    Dialog dialog;
 
     @Override
     public void onAttach(Activity activity) {
@@ -268,7 +271,8 @@ public class ReleaseHouseFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog = DialogUtil.createLoadingDialog(getActivity(),"正在提交");
+                dialog.show();
 
                 for (HashMap map1 : imageItem) {
                     if(i == 1) {
@@ -298,6 +302,7 @@ public class ReleaseHouseFragment extends Fragment {
                             PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList,map, new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
+                                    dialog.cancel();
                                     if(response.equals("操作成功")||response.equals("无法访问"))
                                     Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
                                     else{
@@ -339,11 +344,16 @@ public class ReleaseHouseFragment extends Fragment {
                                         PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList,map, new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
+                                                dialog.cancel();
+                                                if(response.equals("操作成功")||response.equals("无法访问"))
                                                 Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
-                                                Gson gson = new Gson();
-                                                Houses house = gson.fromJson(response,Houses.class);
-                                                i = 1;
-                                                mFragmentListener.updateMyHouseList(house);
+                                                else{
+                                                    Gson gson = new Gson();
+                                                    Houses house = gson.fromJson(response,Houses.class);
+                                                    i = 1;
+                                                    mFragmentListener.updateMyHouseList(house);
+                                                }
+
                                             }
                                         }, new Response.ErrorListener() {
                                             @Override

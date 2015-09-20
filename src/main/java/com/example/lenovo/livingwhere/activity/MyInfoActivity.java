@@ -112,7 +112,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 2);
                 bundle.putString("url",MyApplication.user.getHeadPic());
-                bundle.putInt("from",1);
+                bundle.putInt("from",2);
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 2);
             }
