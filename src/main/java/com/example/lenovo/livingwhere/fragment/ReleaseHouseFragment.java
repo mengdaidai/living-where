@@ -299,12 +299,13 @@ public class ReleaseHouseFragment extends Fragment {
                                 @Override
                                 public void onResponse(String response) {
                                     dialog.cancel();
+                                    i = 1;
                                     if(response.equals("操作成功")||response.equals("无法访问"))
                                         Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
                                     else{
                                         Gson gson = new Gson();
                                         Houses house = gson.fromJson(response, Houses.class);
-                                        i = 1;
+
                                         mFragmentListener.updateMyHouseList(house);
                                     }
 
@@ -340,12 +341,14 @@ public class ReleaseHouseFragment extends Fragment {
                                     PostUploadRequest uploadRequest = new PostUploadRequest(url, formImageList, map, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
+                                            dialog.cancel();
+                                            i = 1;
                                             if(response.equals("操作成功")||response.equals("无法访问"))
                                                 Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
                                             else{
                                                 Gson gson = new Gson();
                                                 Houses house = gson.fromJson(response, Houses.class);
-                                                i = 1;
+
                                                 mFragmentListener.updateMyHouseList(house);
                                             }
 
