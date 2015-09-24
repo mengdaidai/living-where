@@ -1,6 +1,7 @@
 package com.example.lenovo.livingwhere.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,8 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
     int DatePickertype,rentType = 1;//分别为当前选择日期类型（入住、离开），出租类型（长租or短租）
     String inDate = "",outDate = "";
     ImageButton cancelButton,backButton;
-    TextView title;
+    TextView title,typeText,loactionText;
+    int hid;
 
 
     @Override
@@ -84,7 +86,18 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
         cancelButton = (ImageButton)findViewById(R.id.order_cancel_button);
         backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
         title = (TextView)findViewById(R.id.toolbar_back_title_text);
+        typeText = (TextView)findViewById(R.id.order_type);
+        loactionText = (TextView)findViewById(R.id.order_location);
         title.setText("预约");
+        Intent intent = getIntent();
+        hid = intent.getIntExtra("hid",0);
+        if(intent.getIntExtra("type",0) == 0)
+            typeText.setText("个人住房");
+        else
+            typeText.setText("酒店宾馆");
+        loactionText.setText(intent.getStringExtra("location"));
+
+
 
     }
 
@@ -158,7 +171,7 @@ public class OrderActivity extends FragmentActivity implements DatePickerDialog.
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String,String> map = new HashMap<String, String>();
                         map.put("uid",String.valueOf(MyApplication.user.getUid()));
-                        map.put("hid",String.valueOf(3));
+                        map.put("hid",String.valueOf(hid));
                         map.put("start",inDate);
                         if(rentType == 0)
                             map.put("end",outDate);

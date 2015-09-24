@@ -22,11 +22,19 @@
         android:layout_marginBottom="@dimen/view_marginTopOrBottom"
         />
     <TextView
+        android:layout_weight="1"
         android:id="@+id/toolbar_back_title_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textColor="#ffffff"
         android:gravity="center"
+        android:text="haha"
+        />
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/toolbar_head_margin_right"
+        android:background="@android:color/transparent"
         />
 
 </LinearLayout>

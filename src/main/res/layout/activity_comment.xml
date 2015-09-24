@@ -31,14 +31,14 @@
         android:layout_height="200dp"
         android:horizontalSpacing="5dp"
         android:verticalSpacing="5dp"
-        android:numColumns="4"
-        android:columnWidth="90dp"
+        android:numColumns="3"
+        android:columnWidth="85dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:layout_below="@id/comment_edittext"
         android:layout_marginTop="25dp"
         android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"></GridView>
+        android:layout_marginLeft="35dp"></GridView>
 
 
 
@@ -54,11 +54,7 @@
         android:background="#44bfee"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"/>
-    <ImageView
-        android:id="@+id/imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/comment_submit"/>
+
 
 
 

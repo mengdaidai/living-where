@@ -101,16 +101,7 @@ public class MyHouseAdapter extends BaseAdapter {
             holder.text_location = (TextView) convertView.findViewById(R.id.item_my_house_text_location);
             holder.text_count = (TextView) convertView.findViewById(R.id.item_my_house_text_count);
             holder.offLineButton = (Button)convertView.findViewById(R.id.item_my_house_xiajia);
-            holder.offLineButton.setTag(position);
             holder.editButton = (Button)convertView.findViewById(R.id.item_my_house_edit);
-            holder.editButton.setTag(position);
-            if(houseInfo.get(position).getState() == 1) holder.offLineButton.setText("下架");
-            else if(houseInfo.get(position).getState() == 2) holder.offLineButton.setText("上架");
-            else if(houseInfo.get(position).getState() == 0)
-            {
-                holder.offLineButton.setText("等待审核中");
-                holder.offLineButton.setEnabled(false);
-            }
             holder.offLineButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -175,7 +166,6 @@ public class MyHouseAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     int mPosition = (int)v.getTag();
-                    System.out.println("tag!!!!!!!" + mPosition);
                     Intent intent = new Intent(context, EditHouseActivity.class);
                     intent.putExtra("house", (Serializable) houseInfo.get(mPosition));
                     System.out.println(mPosition);
@@ -187,9 +177,17 @@ public class MyHouseAdapter extends BaseAdapter {
 
         } else {
             holder = (MyHouseViewHolder) convertView.getTag();
-            holder.offLineButton.setTag(position);
-            holder.editButton.setTag(position);
+        }
 
+        holder.offLineButton.setTag(position);
+        holder.editButton.setTag(position);
+        holder.offLineButton.setEnabled(true);
+        if(houseInfo.get(position).getState() == 1) holder.offLineButton.setText("下架");
+        else if(houseInfo.get(position).getState() == 2) holder.offLineButton.setText("上架");
+        else if(houseInfo.get(position).getState() == 0)
+        {
+            holder.offLineButton.setText("等待审核中");
+            holder.offLineButton.setEnabled(false);
         }
 
         // 进行数据设置

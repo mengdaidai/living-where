@@ -70,7 +70,7 @@ public class MyInfoActivity extends AppCompatActivity implements View.OnClickLis
         imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(headPicImageView,
                 R.drawable.my_info_btn_header, R.drawable.my_info_btn_header);
-        imageLoader.get(URI.HeadPic+MyApplication.user.getHeadPic(), listener, 200, 200);
+        imageLoader.get(URI.HeadPic+MyApplication.user.getHeadPic(), listener, 400, 400);
         nicknameText = (TextView)findViewById(R.id.my_info_nick_name);
         nicknameText.setText(MyApplication.user.getNickname());
         ageText = (TextView)findViewById(R.id.my_info_age);

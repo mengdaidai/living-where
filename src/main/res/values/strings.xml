@@ -25,5 +25,8 @@
     <string name="title_activity_house_details">HouseDetailsActivity</string>
     <string name="title_activity_rating">RatingActivity</string>
     <string name="to_exit">再按一次返回键退出</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_chooseLoc">ChooseLocActivity</string>
+    <string name="title_activity_all_pic">AllPicActivity</string>
 
 </resources>

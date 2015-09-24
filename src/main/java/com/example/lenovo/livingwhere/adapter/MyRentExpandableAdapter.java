@@ -11,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.livingwhere.entity.Houses;
@@ -26,6 +29,7 @@ import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +38,7 @@ import java.util.Map;
  * 我出租的房子的预约记录
  */
 class RentExpandableViewHolder{
-    TextView parentTitle,childLocationText,childStartText,childEndText;
+    TextView parentTitle,childLocationText,childStartText,childEndText,childTelText;
     ImageView houseImage;
     Button compeleteButton;
 }
@@ -108,7 +112,7 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         RentExpandableViewHolder holder = null;
         if(convertView == null){
             holder = new RentExpandableViewHolder();
@@ -118,17 +122,21 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
             holder.childStartText= (TextView)convertView.findViewById(R.id.item_child_expandable_text_starttime);
             holder.houseImage = (ImageView)convertView.findViewById(R.id.item_child_expandable_houseImage);
             holder.compeleteButton = (Button)convertView.findViewById(R.id.item_child_expandable_button_compelete);
-            if(groupPosition == 0)
-                holder.compeleteButton.setVisibility(View.VISIBLE);
-            holder.compeleteButton.setTag(childPosition);
+            holder.childTelText = (TextView)convertView.findViewById(R.id.item_child_expandable_text_tel);
             holder.compeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final Button button = (Button)v;
                     final int childPos = (int)v.getTag();
                     StringRequest request = new StringRequest(Request.Method.POST, URI.ChangeBookStateAddr, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             Toast.makeText(context,s,Toast.LENGTH_LONG).show();
+                            if(s.equals("操作成功")){
+                                button.setEnabled(false);
+                                button.setText("已接受");
+                                childData.get(groupPosition).get(childPosition).setState(1);
+                            }
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -137,11 +145,26 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
                         }
                     }){
                         @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            try {
+                                String mString =
+                                        new String(response.data, "utf-8");
+
+                                return Response.success(mString,
+                                        HttpHeaderParser.parseCacheHeaders(response));
+                            } catch (UnsupportedEncodingException e) {
+                                return Response.error(new ParseError(e));
+                            }
+                        }
+
+
+                        @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map = new HashMap<String,String>();
                             map.put("bhid",String.valueOf(childData.get(0).get(childPos).getBhid()));
                             map.put("hid",String.valueOf(childData.get(0).get(childPos).getHid()));
                             map.put("state",String.valueOf(1));
+                            map.put("uid",String.valueOf(MyApplication.user.getUid()));
                             return map;
                         }
                     };
@@ -152,11 +175,26 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
             convertView.setTag(holder);
         }else{
             holder = (RentExpandableViewHolder)convertView.getTag();
+
         }
+
+        if(groupPosition == 0)
+            holder.compeleteButton.setVisibility(View.VISIBLE);
+        else
+            holder.compeleteButton.setVisibility(View.GONE);
+
+        if(childData.get(groupPosition).get(childPosition).getState() == 1){
+            holder.compeleteButton.setEnabled(false);
+        }else{
+            holder.compeleteButton.setEnabled(true);
+        }
+
+
+        holder.compeleteButton.setTag(childPosition);
 
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
-        List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getHeadPic(), new TypeToken<List<String>>() {
+        List<String> pics = gson.fromJson(childData.get(groupPosition).get(childPosition).getHouse().getPictures(), new TypeToken<List<String>>() {
         }.getType());
         if(pics!=null)
         mLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
@@ -165,8 +203,9 @@ public class MyRentExpandableAdapter extends BaseExpandableListAdapter {
         //Houses house = childData.get(groupPosition).get(childPosition).getHouse();
         //String address = childData.get(groupPosition).get(childPosition).getHouse().getAddress();
         holder.childLocationText.setText(childData.get(groupPosition).get(childPosition).getHouse().getAddress());
-        holder.childEndText.setText(childData.get(groupPosition).get(childPosition).getStart());
-        holder.childStartText.setText(childData.get(groupPosition).get(childPosition).getEnd());
+        holder.childEndText.setText(childData.get(groupPosition).get(childPosition).getEnd());
+        holder.childStartText.setText(childData.get(groupPosition).get(childPosition).getStart());
+        holder.childTelText.setText(childData.get(groupPosition).get(childPosition).getPhoneNum());
         return convertView;
     }
 

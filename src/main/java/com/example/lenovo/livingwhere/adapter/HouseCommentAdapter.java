@@ -79,13 +79,12 @@ public class HouseCommentAdapter extends BaseAdapter {
             holder.text_message = (TextView) convertView.findViewById(R.id.house_comment_message);
             holder.text_nickname = (TextView) convertView.findViewById(R.id.house_comment_nickname);
             holder.image_head = (ImageView)convertView.findViewById(R.id.house_comment_pic_head);
-
             convertView.setTag(holder);
         } else {
             holder = (HouseCommentViewHolder) convertView.getTag();
         }
         for(int i = 0;i<4;i++)
-            holder.commentPics[i].setVisibility(View.VISIBLE);
+            holder.commentPics[i].setVisibility(View.GONE);
         // 进行数据设置
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.image_head,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);

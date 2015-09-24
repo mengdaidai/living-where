@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.baidu.mapapi.SDKInitializer;
 import com.example.lenovo.livingwhere.entity.CurrentUserObj;
 
 /**

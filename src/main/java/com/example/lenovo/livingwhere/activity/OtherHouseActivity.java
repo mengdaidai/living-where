@@ -109,7 +109,6 @@ public class OtherHouseActivity extends AppCompatActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("hid", String.valueOf(intent.getIntExtra("hid", 0)));
-                    System.out.println("hid!!!!!!!!"+intent.getIntExtra("hid",0));
                     return map;
                 }
             };

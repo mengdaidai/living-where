@@ -128,6 +128,9 @@ public class HouseDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.house_details_order:
                 intent = new Intent(HouseDetailsActivity.this, OrderActivity.class);
+                intent.putExtra("hid",mHouse.getHid());
+                intent.putExtra("type",mHouse.getType());
+                intent.putExtra("location",mHouse.getAddress());
                 startActivity(intent);
                 break;
             case R.id.house_details_tel:

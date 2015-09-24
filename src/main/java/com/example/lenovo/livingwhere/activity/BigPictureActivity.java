@@ -52,14 +52,14 @@ public class BigPictureActivity extends AppCompatActivity {
                 position = (int)bundle.get("position");
                 Bitmap bmp = BitmapFactory.decodeFile(localPath);
                 image.setImageBitmap(bmp);
-                deleteButton = (Button)findViewById(R.id.toolbar_back_title_delete_delete);
+                deleteButton = (Button)findViewById(R.id.toolbar_back_title_button_button);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog();
                     }
                 });
-                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_delete_back);
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_button_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -70,6 +70,7 @@ public class BigPictureActivity extends AppCompatActivity {
             case 2://有url,不可以删除的大图（房子详情、头像、评论）
                 setContentView(R.layout.activity_big_head_pic);
                 url = (String)bundle.get("url");
+                System.out.println(URI.HousesPic + url);
                 backButton = (ImageButton)findViewById(R.id.toolbar_back_title_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -93,18 +94,19 @@ public class BigPictureActivity extends AppCompatActivity {
                 image = (ImageView)findViewById(R.id.big_picture_image);
                 position = (int)bundle.get("position");
                 url = (String)bundle.get("url");
+                System.out.println(URI.HousesPic + url);
                 imageLoader = new ImageLoader(MyApplication.mQueue,new BitmapCache());
                 listener = ImageLoader.getImageListener(image,
                         R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
                 imageLoader.get(URI.HousesPic+url,listener);
-                deleteButton = (Button)findViewById(R.id.toolbar_back_title_delete_delete);
+                deleteButton = (Button)findViewById(R.id.toolbar_back_title_button_button);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         dialog();
                     }
                 });
-                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_delete_back);
+                backButton = (ImageButton)findViewById(R.id.toolbar_back_title_button_back);
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

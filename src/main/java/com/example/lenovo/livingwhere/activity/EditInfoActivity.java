@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.example.lenovo.livingwhere.adapter.MyAdapter;
 import com.example.lenovo.livingwhere.util.AfterPicSelection;
 import com.example.lenovo.livingwhere.util.BitmapCache;
 import com.example.lenovo.livingwhere.entity.CurrentUserObj;
@@ -72,12 +73,10 @@ public class EditInfoActivity extends AppCompatActivity implements View.OnClickL
             case 1://上传头像返回
                 if(data.getBooleanExtra("cancel",false))//我也忘了这句干啥的= =
                     return;
-                Uri mImageCaptureUri = data.getData();
-                //返回的Uri不为空时，那么图片信息数据都会在Uri中获得。如果为空，那么我们就进行下面的方式获取
-                if (mImageCaptureUri != null) {
-                    localPath = AfterPicSelection.getPath(this, mImageCaptureUri);
+                if (data.getStringExtra("localPath") == null) {
+                    localPath = ((List<String>)data.getSerializableExtra("dirs")).get(0);
                     new UpdateViewTask().execute(localPath);
-                }else{
+                } else {
                     localPath = data.getStringExtra("localPath");
                     new UpdateViewTask().execute(localPath);
                 }
@@ -211,7 +210,7 @@ public class EditInfoActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = AfterPicSelection.getSmallBitmap(params[0], 128 * 128);
+            Bitmap bitmap = AfterPicSelection.getSmallBitmap(params[0], 350 * 350);
             return bitmap;
         }
 
@@ -219,7 +218,7 @@ public class EditInfoActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(Bitmap bitmap) {
             headPic.setImageBitmap(bitmap);
             MyApplication.smallHeadBitmap = bitmap;
-
+            MyAdapter.mSelectedImage.clear();
         }
     }
 

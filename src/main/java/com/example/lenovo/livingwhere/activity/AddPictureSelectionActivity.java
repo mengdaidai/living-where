@@ -67,11 +67,8 @@ public class AddPictureSelectionActivity extends Activity implements View.OnClic
             return;
         }
         if(data!=null){
-            if (data.getData()!= null){
-                Intent intent = new Intent();
-                intent.setData(data.getData());
-                setResult(RESULT_OK, intent);
-            }
+                setResult(RESULT_OK, data);
+
 
         } else {
             Intent intent = new Intent();
@@ -108,10 +105,7 @@ public class AddPictureSelectionActivity extends Activity implements View.OnClic
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(intent, 2);*/
                     Intent intent;
-                    intent = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
+                    intent = new Intent(AddPictureSelectionActivity.this,AllPicActivity.class);
                     startActivityForResult(intent, 1);
                 } catch (ActivityNotFoundException e) {
 

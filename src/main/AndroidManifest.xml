@@ -24,8 +24,11 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:name=".util.MyApplication"
@@ -112,6 +115,18 @@
         <activity
             android:name=".activity.HouseDetailsActivity"
             android:label="@string/title_activity_house_details" >
+        </activity>
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".activity.ChooseLocActivity"
+            android:label="@string/title_activity_chooseLoc" >
+        </activity>
+        <activity
+            android:name=".activity.AllPicActivity"
+            android:label="@string/title_activity_all_pic" >
         </activity>
     </application>
 

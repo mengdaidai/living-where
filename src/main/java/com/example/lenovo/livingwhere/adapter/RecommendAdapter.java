@@ -24,7 +24,7 @@ import java.util.List;
  * 首页推荐的适配器
  */
 
-class ViewHolder {
+class RecommendViewHolder {
     public ImageView houseImage;
     public TextView text_location, text_count, price;
 
@@ -63,9 +63,9 @@ public class RecommendAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         final DistanceSort info = houseInfo.get(position);
-        ViewHolder holder = null;
+        RecommendViewHolder holder = null;
         if (convertView == null) {
-            holder = new ViewHolder();
+            holder = new RecommendViewHolder();
             convertView = mInflater.inflate(R.layout.item_recommend, null);
             holder.houseImage = (ImageView) convertView.findViewById(R.id.item_recommend_houseImage);
             holder.price = (TextView) convertView.findViewById(R.id.item_recommend_price);
@@ -73,7 +73,7 @@ public class RecommendAdapter extends BaseAdapter {
             holder.text_count = (TextView) convertView.findViewById(R.id.item_recommend_text_count);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (RecommendViewHolder) convertView.getTag();
         }
 
         // 进行数据设置

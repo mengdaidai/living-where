@@ -100,8 +100,8 @@ public class MyOrderHistoryActivity extends AppCompatActivity implements View.On
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("uid", String.valueOf(MyApplication.user.getUid()));
-
-                map.put("kind",String.valueOf(0));
+                if(MyApplication.user.getType() == 2)
+                    map.put("kind",String.valueOf(0));
                 return map;
             }
         };

@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.livingwhere.activity.BigPictureActivity;
@@ -31,6 +34,7 @@ import com.example.lenovo.livingwhere.util.URI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +45,7 @@ import java.util.Map;
 
 
 class ExpandableViewHolder{
-    TextView parentTitle,childLocationText,childStartText,childEndText;
+    TextView parentTitle,childLocationText,childStartText,childEndText,childTelText;
     ImageView houseImage;
     Button compeleteButton;
 
@@ -127,18 +131,22 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
             holder.childStartText= (TextView)convertView.findViewById(R.id.item_child_expandable_text_starttime);
             holder.houseImage = (ImageView)convertView.findViewById(R.id.item_child_expandable_houseImage);
             holder.compeleteButton = (Button)convertView.findViewById(R.id.item_child_expandable_button_compelete);
-            if(groupPosition == 1) holder.compeleteButton.setVisibility(View.VISIBLE);
-            holder.compeleteButton.setTag(childPosition);
+            holder.childTelText = (TextView)convertView.findViewById(R.id.item_child_expandable_text_tel);
             holder.compeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final Button button = (Button)v;
                     final int childPos = (int)v.getTag();
                     StringRequest request = new StringRequest(Request.Method.POST, URI.ChangeBookStateAddr, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
                             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
-
-
+                            if(s.equals("操作成功")){
+                                button.setEnabled(false);
+                                button.setText("已完成");
+                                childData.get(1).get(childPos).setState(2);
+                            }
+                            dialog(childData.get(1).get(childPos).getHid());
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -147,11 +155,26 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
                         }
                     }){
                         @Override
+                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                            try {
+                                String mString =
+                                        new String(response.data, "utf-8");
+
+                                return Response.success(mString,
+                                        HttpHeaderParser.parseCacheHeaders(response));
+                            } catch (UnsupportedEncodingException e) {
+                                return Response.error(new ParseError(e));
+                            }
+                        }
+
+
+                        @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String,String> map = new HashMap<String,String>();
-                            map.put("bhid",String.valueOf(childData.get(0).get(childPos).getBhid()));
-                            map.put("hid",String.valueOf(childData.get(0).get(childPos).getHid()));
+                            map.put("bhid",String.valueOf(childData.get(1).get(childPos).getBhid()));
+                            map.put("hid",String.valueOf(childData.get(1).get(childPos).getHid()));
                             map.put("state",String.valueOf(2));
+                            map.put("uid",String.valueOf(MyApplication.user.getUid()));
                             return map;
                         }
                     };
@@ -161,7 +184,18 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
             convertView.setTag(holder);
         }else{
             holder = (ExpandableViewHolder)convertView.getTag();
+
         }
+        if(groupPosition == 1)
+            holder.compeleteButton.setVisibility(View.VISIBLE);
+        else
+            holder.compeleteButton.setVisibility(View.GONE);
+        if(childData.get(groupPosition).get(childPosition).getState() == 2){
+            holder.compeleteButton.setEnabled(false);
+        }else{
+            holder.compeleteButton.setEnabled(true);
+        }
+        holder.compeleteButton.setTag(childPosition);
 
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(holder.houseImage,
                 R.drawable.recommend_house_default, R.drawable.recommend_house_failed);
@@ -169,8 +203,9 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
         if(pics!=null)
         mLoader.get(URI.HousesPic + pics.get(0), listener, 200, 200);
         holder.childLocationText.setText("地    点："+childData.get(groupPosition).get(childPosition).getAddress());
-        holder.childEndText.setText("离开时间:"+childData.get(groupPosition).get(childPosition).getStart());
-        holder.childStartText.setText("入住时间:"+childData.get(groupPosition).get(childPosition).getEnd());
+        holder.childEndText.setText("离开时间:"+childData.get(groupPosition).get(childPosition).getEnd());
+        holder.childStartText.setText("入住时间:"+childData.get(groupPosition).get(childPosition).getStart());
+        holder.childTelText.setText("电    话:"+childData.get(groupPosition).get(childPosition).getContactPhone());
         return convertView;
     }
 
@@ -180,14 +215,15 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
     }
 
 
-    protected void dialog() {
+    protected void dialog(int h) {
+        final int hid = h;
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater factory = LayoutInflater.from(context);
         final View ratingView = factory.inflate(R.layout.dialog_rating,null);
         builder.setMessage("请为该房子评分吧~");
         builder.setTitle("提示");
         builder.setView(ratingView);
-        builder.setPositiveButton("ȷ确认", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
                 final RatingBar bar = (RatingBar) ratingView.findViewById(R.id.rating);
@@ -200,6 +236,7 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
                             dialog.dismiss();
                         } else {
                             Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+                            System.out.println(s);
                         }
 
                     }
@@ -210,13 +247,26 @@ public class MyOrderExpandableAdapter extends BaseExpandableListAdapter{
                     }
                 }) {
                     @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("uid", String.valueOf(MyApplication.user.getUid()));
-                        map.put("stars", String.valueOf(bar.getRating()));
-                        return map;
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        try {
+                            String mString =
+                                    new String(response.data, "utf-8");
+
+                            return Response.success(mString,
+                                    HttpHeaderParser.parseCacheHeaders(response));
+                        } catch (UnsupportedEncodingException e) {
+                            return Response.error(new ParseError(e));
+                        }
                     }
-                };
+                    @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("stars", String.valueOf((int)bar.getRating()));
+                    map.put("hid",String.valueOf(hid));
+                        map.put("uid",String.valueOf(MyApplication.user.getUid()));
+                    return map;
+                }
+            };
                 MyApplication.mQueue.add(request);
 
 

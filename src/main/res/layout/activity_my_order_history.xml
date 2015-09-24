@@ -16,6 +16,7 @@
         android:id="@+id/my_order_history_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"></ExpandableListView>
+        android:layout_below="@id/toolbar"
+        android:dividerHeight="1px"></ExpandableListView>
 
 </RelativeLayout>

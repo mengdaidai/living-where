@@ -70,9 +70,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1://查看个人信息返回
                 headImageView.setImageBitmap(MyApplication.smallHeadBitmap);
+                break;
+            case 0:
+                if (resultCode == RESULT_OK) {
+                    MyApplication.longitude = data.getDoubleExtra("Longitude", 0);
+                    MyApplication.latitude = data.getDoubleExtra("Lantitude", 0);
+                    String Location = data.getStringExtra("Location");
+                    locationButton.setText(Location);
+                    Toast.makeText(MainActivity.this,MyApplication.longitude+Location+MyApplication.latitude,Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -206,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             }
         });
+        locationButton.setOnClickListener(this);
     }
 
 
@@ -224,6 +235,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.actionbar_recommend_main_head:
                 drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.actionbar_location:
+                Intent intent = new Intent (MainActivity.this,ChooseLocActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("Lantitude", MyApplication.latitude);
+                bundle.putDouble("Longitude", MyApplication.longitude);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);
                 break;
 
 
@@ -280,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
         //int span=1000;
-        option.setScanSpan(0);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        //option.setScanSpan(0);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
@@ -404,6 +423,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("BaiduLocationApiDem", sb.toString());
         }
     }
+
+
+
+
 
 
 }

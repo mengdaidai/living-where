@@ -59,7 +59,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     static ArrayList<HashMap<String, Object>> imageItem;//simpleAdpter数据
     static SimpleAdapter simpleAdapter;     //gridview适配器
     int hid;
-    String localPath;
+    List<String> localPaths ;//用于临时存储照片路径
     ImageButton backButton;
     TextView title;
     Dialog dialog;
@@ -115,9 +115,9 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (imageItem.size() == 5) { //如果照片张数满了
+                if (imageItem.size() == 5 && position == imageItem.size()-1) { //如果照片张数满了
                     Toast.makeText(CommentActivity.this, "最多可添加四张照片~", Toast.LENGTH_SHORT).show();
-                } else if (position == 0) { //点击的是加号
+                } else if (position == imageItem.size()-1) { //点击的是加号
                     Toast.makeText(CommentActivity.this, "添加照片", Toast.LENGTH_SHORT).show();
                     startActivityForResult(new Intent(CommentActivity.this,
                             AddPictureSelectionActivity.class), 1);
@@ -146,14 +146,16 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 if (data.getBooleanExtra("cancel", false))//我也忘了这句干啥的= =
                     return;
                 Uri mImageCaptureUri = data.getData();
-                //返回的Uri不为空时，那么图片信息数据都会在Uri中获得。如果为空，那么我们就进行下面的方式获取
-                if (mImageCaptureUri != null) {
-                    localPath = AfterPicSelection.getPath(this, mImageCaptureUri);
-                    new UpdateViewTask().execute(localPath);
+                if (data.getStringExtra("localPath") == null) {
+                    localPaths = (List<String>)data.getSerializableExtra("dirs");
+                    new UpdateViewTask().execute(localPaths);
                 } else {
-                    localPath = data.getStringExtra("localPath");
-                    new UpdateViewTask().execute(localPath);
+                    String localPath = data.getStringExtra("localPath");
+                    localPaths = new ArrayList<String>();
+                    localPaths.add(localPath);
+                    new UpdateViewTask().execute(localPaths);
                 }
+
                 break;
             case 2://查看大图后返回
                 if (data != null) {
@@ -183,9 +185,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 List<FormImage> formImageList = new ArrayList<FormImage>();
                 int i = 1;
                 for (HashMap map : imageItem) {
-                    if (i == 1) {
-                        i++;
-                        continue;
+                    if (i == imageItem.size()) {
+                        break;
 
                     }
 
@@ -206,8 +207,9 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     public void onResponse(String response) {
                         dialog.cancel();
                         Toast.makeText(CommentActivity.this,response,Toast.LENGTH_LONG).show();
-
+                        imageItem.clear();
                         System.out.println(response);
+                        finish();
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -225,20 +227,29 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private class UpdateViewTask extends AsyncTask<String, String, Bitmap> {
+    private class UpdateViewTask extends AsyncTask<List<String>, String, List<Bitmap>> {
 
         @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = AfterPicSelection.getSmallBitmap(params[0], 128 * 128);
-            return bitmap;
+        protected List<Bitmap> doInBackground(List<String>... params) {
+            List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+            for(String dir:params[0]){
+                Bitmap bitmap = AfterPicSelection.getSmallBitmap(dir, 128 * 128);
+                bitmaps.add(bitmap);
+            }
+            return bitmaps;
         }
 
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("itemImage", bitmap);
-            map.put("localPath", localPath);
-            imageItem.add(map);
+        protected void onPostExecute(List<Bitmap> bitmaps) {
+
+            int i = 0;
+            for(Bitmap bitmap:bitmaps) {
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("itemImage", bitmap);
+                map.put("localPath",localPaths.get(i));
+                imageItem.add(0, map);
+                i++;
+            }
             simpleAdapter = new SimpleAdapter(CommentActivity.this,
                     imageItem, R.layout.grid_item_pic,
                     new String[]{"itemImage"}, new int[]{R.id.grid_item_pic});

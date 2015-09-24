@@ -42,20 +42,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="110dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="@dimen/myinfo_margin_size">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="昵      称："
-                    android:textSize="20dp"
-                    android:textColor="#000000"/>
+                    android:textSize="@dimen/myinfo_text_size"
+                    android:textColor="@color/color_attr"/>
                 <TextView
                     android:id="@+id/my_info_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/myinfo_text_size"
                     android:textColor="#666666"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
@@ -70,21 +70,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="@dimen/myinfo_margin_size"
+                android:layout_marginBottom="@dimen/myinfo_margin_size">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="年      龄："
-                    android:textSize="20dp"
-                    android:textColor="#000000"/>
+                    android:textSize="@dimen/myinfo_text_size"
+                    android:textColor="@color/color_attr"/>
                 <TextView
                     android:id="@+id/my_info_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#666666"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/myinfo_text_size"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
             <View
@@ -97,20 +97,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="@dimen/myinfo_margin_size"
+                android:layout_marginBottom="@dimen/myinfo_margin_size">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="性      别："
-                    android:textSize="20dp"
-                    android:textColor="#000000"/>
+                    android:textSize="@dimen/myinfo_text_size"
+                    android:textColor="@color/color_attr"/>
                 <TextView
                     android:id="@+id/my_info_gender"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#666666"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/myinfo_text_size"
                     android:layout_marginLeft="5dp"></TextView>
             </LinearLayout>
 
@@ -124,21 +124,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="@dimen/myinfo_margin_size"
+                android:layout_marginBottom="@dimen/myinfo_margin_size">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="个性签名："
-                    android:textSize="20dp"
-                    android:textColor="#000000"/>
+                    android:textSize="@dimen/myinfo_text_size"
+                    android:textColor="@color/color_attr"/>
                 <TextView
                     android:id="@+id/my_info_gexingqianming"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#666666"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/myinfo_text_size"
                     android:layout_marginLeft="5dp"/>
             </LinearLayout>
 
